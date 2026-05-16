@@ -140,6 +140,31 @@
           </div>
         </section>
 
+        <section class="typing-panel" aria-labelledby="typing-title">
+          <div class="typing-intro">
+            <p class="eyebrow">打字</p>
+            <h2 id="typing-title">羅馬拼音打日文</h2>
+            <p>用英文鍵盤輸入羅馬拼音，日文鍵盤會自動變成假名；按空白鍵可選漢字，Enter 確認。助詞 は、へ、を 通常打 ha、he、wo。</p>
+          </div>
+          <div class="typing-tool">
+            <label class="field-label" for="romajiInput">輸入羅馬拼音</label>
+            <input id="romajiInput" class="text-field" type="text" placeholder="例：watashi ha gakusei desu">
+            <div class="kana-preview" aria-live="polite">
+              <span>平假名預覽</span>
+              <strong id="kanaPreview">わたし は がくせい です</strong>
+            </div>
+            <button class="voice-secondary" id="copyKanaButton" type="button">套到文法練習</button>
+          </div>
+          <div class="typing-rules" aria-label="羅馬拼音規則">
+            <div><strong>shi</strong><span>し</span></div>
+            <div><strong>chi</strong><span>ち</span></div>
+            <div><strong>tsu</strong><span>つ</span></div>
+            <div><strong>gakkou</strong><span>がっこう</span></div>
+            <div><strong>konnichiha</strong><span>こんにちは</span></div>
+            <div><strong>wo</strong><span>を</span></div>
+          </div>
+        </section>
+
         <section class="progress-section" aria-labelledby="course-title">
           <div class="section-heading">
             <div>

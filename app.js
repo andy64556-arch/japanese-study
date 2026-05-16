@@ -26,6 +26,46 @@ const listeningClips = [
   source: `https://tatoeba.org/en/sentences/show/${clip.id}`
 }));
 
+const romajiKanaMap = {
+  kya: "きゃ", kyu: "きゅ", kyo: "きょ",
+  gya: "ぎゃ", gyu: "ぎゅ", gyo: "ぎょ",
+  sha: "しゃ", shu: "しゅ", sho: "しょ",
+  sya: "しゃ", syu: "しゅ", syo: "しょ",
+  ja: "じゃ", ju: "じゅ", jo: "じょ",
+  jya: "じゃ", jyu: "じゅ", jyo: "じょ",
+  cha: "ちゃ", chu: "ちゅ", cho: "ちょ",
+  tya: "ちゃ", tyu: "ちゅ", tyo: "ちょ",
+  nya: "にゃ", nyu: "にゅ", nyo: "にょ",
+  hya: "ひゃ", hyu: "ひゅ", hyo: "ひょ",
+  bya: "びゃ", byu: "びゅ", byo: "びょ",
+  pya: "ぴゃ", pyu: "ぴゅ", pyo: "ぴょ",
+  mya: "みゃ", myu: "みゅ", myo: "みょ",
+  rya: "りゃ", ryu: "りゅ", ryo: "りょ",
+  fa: "ふぁ", fi: "ふぃ", fe: "ふぇ", fo: "ふぉ",
+  va: "ゔぁ", vi: "ゔぃ", vu: "ゔ", ve: "ゔぇ", vo: "ゔぉ",
+  she: "しぇ", che: "ちぇ", je: "じぇ",
+  ti: "てぃ", di: "でぃ", tu: "つ", du: "づ",
+  tsu: "つ", shi: "し", chi: "ち", fu: "ふ",
+  ka: "か", ki: "き", ku: "く", ke: "け", ko: "こ",
+  ga: "が", gi: "ぎ", gu: "ぐ", ge: "げ", go: "ご",
+  sa: "さ", si: "し", su: "す", se: "せ", so: "そ",
+  za: "ざ", zi: "じ", zu: "ず", ze: "ぜ", zo: "ぞ",
+  ta: "た", te: "て", to: "と",
+  da: "だ", de: "で", do: "ど",
+  na: "な", ni: "に", nu: "ぬ", ne: "ね", no: "の",
+  ha: "は", hi: "ひ", hu: "ふ", he: "へ", ho: "ほ",
+  ba: "ば", bi: "び", bu: "ぶ", be: "べ", bo: "ぼ",
+  pa: "ぱ", pi: "ぴ", pu: "ぷ", pe: "ぺ", po: "ぽ",
+  ma: "ま", mi: "み", mu: "む", me: "め", mo: "も",
+  ya: "や", yu: "ゆ", yo: "よ",
+  ra: "ら", ri: "り", ru: "る", re: "れ", ro: "ろ",
+  wa: "わ", wo: "を",
+  xa: "ぁ", xi: "ぃ", xu: "ぅ", xe: "ぇ", xo: "ぉ",
+  la: "ぁ", li: "ぃ", lu: "ぅ", le: "ぇ", lo: "ぉ",
+  xya: "ゃ", xyu: "ゅ", xyo: "ょ", xtsu: "っ", ltsu: "っ",
+  a: "あ", i: "い", u: "う", e: "え", o: "お"
+};
+
 const lessons = [
   {
     week: 1,
@@ -500,6 +540,9 @@ const dom = {
   rateControl: document.querySelector("#rateControl"),
   rateLabel: document.querySelector("#rateLabel"),
   stopVoiceButton: document.querySelector("#stopVoiceButton"),
+  romajiInput: document.querySelector("#romajiInput"),
+  kanaPreview: document.querySelector("#kanaPreview"),
+  copyKanaButton: document.querySelector("#copyKanaButton"),
   progressText: document.querySelector("#progressText"),
   progressBar: document.querySelector("#progressBar"),
   weekBoard: document.querySelector("#weekBoard"),
@@ -664,6 +707,74 @@ function speakTextarea(field, fallbackText) {
   speakJapanese(text);
 }
 
+function romajiToHiragana(input) {
+  const text = input.toLowerCase();
+  let output = "";
+  let index = 0;
+  const vowels = "aeiou";
+  const consonants = "bcdfghjklmnpqrstvwxyz";
+
+  while (index < text.length) {
+    const current = text[index];
+    const next = text[index + 1] || "";
+
+    if (current === " ") {
+      output += " ";
+      index += 1;
+      continue;
+    }
+
+    if (current === "-" || current === "ー") {
+      output += "ー";
+      index += 1;
+      continue;
+    }
+
+    if (current === "n") {
+      if (next === "n") {
+        output += "ん";
+        index += 1;
+        continue;
+      }
+      if (!next || (!vowels.includes(next) && next !== "y")) {
+        output += "ん";
+        index += 1;
+        continue;
+      }
+    }
+
+    if (current === next && consonants.includes(current) && current !== "n") {
+      output += "っ";
+      index += 1;
+      continue;
+    }
+
+    let matched = false;
+    for (let length = 4; length > 0; length -= 1) {
+      const chunk = text.slice(index, index + length);
+      if (romajiKanaMap[chunk]) {
+        output += romajiKanaMap[chunk];
+        index += length;
+        matched = true;
+        break;
+      }
+    }
+
+    if (!matched) {
+      output += input[index];
+      index += 1;
+    }
+  }
+
+  return output;
+}
+
+function updateKanaPreview() {
+  const value = dom.romajiInput.value.trim();
+  const preview = value ? romajiToHiragana(value) : "わたし は がくせい です";
+  dom.kanaPreview.textContent = preview;
+}
+
 function currentListeningClip() {
   return listeningClips[state.currentClipIndex] || listeningClips[0];
 }
@@ -820,7 +931,8 @@ function saveDrafts() {
     source: dom.sourceInput.value,
     shadow: dom.shadowInput.value,
     sentence: dom.dailySentenceInput.value,
-    grammarPractice: dom.grammarPracticeInput.value
+    grammarPractice: dom.grammarPracticeInput.value,
+    romaji: dom.romajiInput.value
   };
   saveState();
 }
@@ -831,6 +943,8 @@ function loadDrafts() {
   dom.shadowInput.value = draft.shadow || "";
   dom.dailySentenceInput.value = draft.sentence || "";
   dom.grammarPracticeInput.value = draft.grammarPractice || "";
+  dom.romajiInput.value = draft.romaji || "";
+  updateKanaPreview();
 }
 
 function renderAll() {
@@ -940,6 +1054,14 @@ dom.playFeaturedButton.addEventListener("click", () => speakJapanese(lessons[sel
 dom.playGrammarPracticeButton.addEventListener("click", () => speakTextarea(dom.grammarPracticeInput, lessons[selectedDay].line));
 dom.copyExampleButton.addEventListener("click", () => {
   dom.grammarPracticeInput.value = lessons[selectedDay].line || lessons[selectedDay].examples[0][0];
+  saveDrafts();
+});
+dom.romajiInput.addEventListener("input", () => {
+  updateKanaPreview();
+  saveDrafts();
+});
+dom.copyKanaButton.addEventListener("click", () => {
+  dom.grammarPracticeInput.value = dom.kanaPreview.textContent;
   saveDrafts();
 });
 dom.playShadowButton.addEventListener("click", playListeningClip);

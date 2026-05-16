@@ -549,6 +549,80 @@ h2 {
   align-self: end;
 }
 
+.typing-panel {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.85fr) minmax(300px, 1fr) minmax(260px, 0.95fr);
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 28px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 12px 32px rgba(23, 32, 25, 0.06);
+}
+
+.typing-intro p:not(.eyebrow) {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.typing-tool {
+  display: grid;
+  gap: 10px;
+}
+
+.typing-tool .field-label {
+  margin-top: 0;
+}
+
+.kana-preview {
+  display: grid;
+  gap: 6px;
+  min-height: 82px;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--soft);
+}
+
+.kana-preview span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.kana-preview strong {
+  overflow-wrap: anywhere;
+  font-size: 1.35rem;
+  line-height: 1.35;
+}
+
+.typing-rules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.typing-rules div {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.typing-rules strong {
+  color: var(--teal);
+  font-size: 0.92rem;
+}
+
+.typing-rules span {
+  font-size: 1.15rem;
+  font-weight: 850;
+}
+
 .field-label {
   display: block;
   margin: 14px 0 6px;
@@ -763,6 +837,7 @@ h2 {
   .hero-panel,
   .study-grid,
   .voice-panel,
+  .typing-panel,
   .review-section {
     grid-template-columns: 1fr;
   }
