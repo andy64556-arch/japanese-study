@@ -56,7 +56,6 @@ button:disabled {
 .section-heading,
 .panel-heading,
 .hero-actions,
-.timer-controls,
 .progress-meter {
   display: flex;
   align-items: center;
@@ -152,7 +151,7 @@ h2 {
 .primary-action,
 .secondary-action,
 .ghost-action,
-.icon-button {
+button {
   min-height: 44px;
   border-radius: 8px;
   font-weight: 850;
@@ -298,7 +297,7 @@ h2 {
 
 .practice-grid {
   display: grid;
-  grid-template-columns: minmax(280px, 0.95fr) repeat(3, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
   gap: 16px;
   margin-bottom: 28px;
 }
@@ -329,78 +328,12 @@ h2 {
   align-items: flex-start;
 }
 
-.timer-readout {
-  padding: 9px 12px;
-  border-radius: 8px;
-  background: var(--soft);
-  color: var(--teal);
-  font-size: 1.2rem;
-  font-weight: 900;
-}
-
-.segment-list,
 .example-stack,
 .phrase-list,
 .word-detail-list,
 .quiz-options {
   display: grid;
   gap: 10px;
-}
-
-.segment {
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 10px;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fff;
-}
-
-.segment.active {
-  border-color: rgba(199, 68, 47, 0.5);
-  background: #fff6f2;
-}
-
-.segment.done {
-  opacity: 0.62;
-}
-
-.segment strong {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background: var(--soft);
-  color: var(--teal);
-}
-
-.segment p {
-  margin: 0;
-  font-weight: 850;
-}
-
-.segment small {
-  color: var(--muted);
-}
-
-.timer-controls {
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.icon-button {
-  width: 74px;
-  padding: 0 10px;
-  background: #17201d;
-  color: #fff;
-}
-
-.icon-button.wide {
-  flex: 1;
-  width: auto;
 }
 
 .mini-badge {
@@ -711,15 +644,13 @@ h2 {
     padding: 24px;
   }
 
-  .hero-actions,
-  .timer-controls {
+  .hero-actions {
     align-items: stretch;
     flex-direction: column;
   }
 
   .ghost-action,
-  .primary-action,
-  .icon-button {
+  .primary-action {
     width: 100%;
   }
 

@@ -1,12 +1,5 @@
 const STORAGE_KEY = "my-vocabulary-practice-v2";
 
-const segments = [
-  { label: "認識單字", minutes: 5, detail: "看詞性、中文意思和使用情境。" },
-  { label: "搭配用法", minutes: 5, detail: "記住 2 到 3 個常見搭配。" },
-  { label: "例句拆解", minutes: 5, detail: "觀察單字在句子裡的位置。" },
-  { label: "延伸造句", minutes: 5, detail: "用今日單字寫自己的句子。" }
-];
-
 const lessonRows = [
   [1, "日常學習", "practice", "verb / noun", "練習；實作", "把能力變熟的重複行動。", ["practice English", "練習英文"], ["daily practice", "每日練習"], ["practice more", "多練習"], "I practice English for ten minutes every day.", "每天我練習英文十分鐘。", "I need more practice before the test.", "考試前我需要更多練習。", "I practice ___ every ___.", ["練習", "忘記", "購買"]],
   [1, "日常學習", "improve", "verb", "改善；進步", "讓能力、狀態或結果變得更好。", ["improve my English", "改善我的英文"], ["improve slowly", "慢慢進步"], ["improve a skill", "提升技能"], "I want to improve my English speaking.", "我想改善英文口說。", "My writing improved after daily practice.", "每天練習後，我的寫作進步了。", "I want to improve my ___.", ["改善", "等待", "借用"]],
@@ -67,9 +60,6 @@ const lessons = lessonRows.map((row, index) => {
 
 const state = loadState();
 let selectedDay = Math.min(state.selectedDay ?? state.completedDays, lessons.length - 1);
-let currentSegment = 0;
-let remainingSeconds = 20 * 60;
-let timerId = null;
 
 const dom = {
   todayLabel: document.querySelector("#todayLabel"),
@@ -82,11 +72,6 @@ const dom = {
   completeDayButton: document.querySelector("#completeDayButton"),
   copyWordButton: document.querySelector("#copyWordButton"),
   resetButton: document.querySelector("#resetButton"),
-  timerReadout: document.querySelector("#timerReadout"),
-  segmentList: document.querySelector("#segmentList"),
-  startTimerButton: document.querySelector("#startTimerButton"),
-  nextSegmentButton: document.querySelector("#nextSegmentButton"),
-  resetTimerButton: document.querySelector("#resetTimerButton"),
   wordTitle: document.querySelector("#wordTitle"),
   lessonLevel: document.querySelector("#lessonLevel"),
   wordType: document.querySelector("#wordType"),
@@ -151,12 +136,6 @@ function isYesterday(dateText) {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   return yesterday.toISOString().slice(0, 10) === dateText;
-}
-
-function formatTime(totalSeconds) {
-  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
-  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
-  return `${minutes}:${seconds}`;
 }
 
 function currentLesson() {
@@ -253,25 +232,6 @@ function renderQuiz() {
   );
 }
 
-function renderSegments() {
-  dom.segmentList.replaceChildren(
-    ...segments.map((segment, index) => {
-      const item = document.createElement("div");
-      item.className = "segment";
-      if (index === currentSegment) item.classList.add("active");
-      if (index < currentSegment) item.classList.add("done");
-      item.innerHTML = `
-        <strong>${segment.minutes}</strong>
-        <div>
-          <p>${segment.label}</p>
-          <small>${segment.detail}</small>
-        </div>
-      `;
-      return item;
-    })
-  );
-}
-
 function renderProgress() {
   const done = Math.min(state.completedDays, lessons.length);
   dom.progressText.textContent = `${done} / ${lessons.length}`;
@@ -360,50 +320,8 @@ function loadDrafts() {
 
 function renderAll() {
   renderLesson();
-  renderSegments();
   renderBoard();
   renderNotes();
-}
-
-function startTimer() {
-  if (timerId) {
-    clearInterval(timerId);
-    timerId = null;
-    dom.startTimerButton.textContent = "繼續";
-    return;
-  }
-
-  dom.startTimerButton.textContent = "暫停";
-  timerId = setInterval(() => {
-    remainingSeconds -= 1;
-    if (remainingSeconds <= 0) advanceSegment();
-    dom.timerReadout.textContent = formatTime(remainingSeconds);
-  }, 1000);
-}
-
-function advanceSegment() {
-  if (currentSegment < segments.length - 1) {
-    currentSegment += 1;
-    const completedSeconds = segments.slice(0, currentSegment).reduce((sum, segment) => sum + segment.minutes * 60, 0);
-    remainingSeconds = 20 * 60 - completedSeconds;
-  } else {
-    remainingSeconds = 0;
-    clearInterval(timerId);
-    timerId = null;
-    dom.startTimerButton.textContent = "完成";
-  }
-  dom.timerReadout.textContent = formatTime(remainingSeconds);
-  renderSegments();
-}
-
-function resetTimer() {
-  clearInterval(timerId);
-  timerId = null;
-  currentSegment = 0;
-  remainingSeconds = 20 * 60;
-  dom.timerReadout.textContent = formatTime(remainingSeconds);
-  dom.startTimerButton.textContent = "開始";
-  renderSegments();
 }
 
 function saveNote() {
@@ -446,13 +364,9 @@ function resetProgress() {
   localStorage.removeItem(STORAGE_KEY);
   Object.assign(state, loadState());
   selectedDay = 0;
-  resetTimer();
   renderAll();
 }
 
-dom.startTimerButton.addEventListener("click", startTimer);
-dom.nextSegmentButton.addEventListener("click", advanceSegment);
-dom.resetTimerButton.addEventListener("click", resetTimer);
 dom.completeDayButton.addEventListener("click", completeDay);
 dom.copyWordButton.addEventListener("click", () => {
   dom.sentenceInput.value = currentLesson().word;
