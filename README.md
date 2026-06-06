@@ -2,6 +2,12 @@
 
 這是一個可以直接在本機使用的英文學習網頁 app。打開 `index.html` 就能開始練習，不需要登入或安裝套件。
 
+公開網址：
+
+```text
+https://andy64556-arch.github.io/japanese-study/
+```
+
 ## 功能
 
 - 4 週、共 28 天的英文自學路線
