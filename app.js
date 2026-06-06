@@ -118,7 +118,7 @@ const dom = {
   saveNoteButton: document.querySelector("#saveNoteButton"),
   progressText: document.querySelector("#progressText"),
   progressBar: document.querySelector("#progressBar"),
-  weekBoard: document.querySelector("#weekBoard"),
+  partBoard: document.querySelector("#partBoard"),
   notesList: document.querySelector("#notesList")
 };
 
@@ -332,7 +332,7 @@ function renderBoard() {
       .map((lesson, index) => ({ ...lesson, index }))
       .filter((lesson) => lesson.week === week);
     const card = document.createElement("article");
-    card.className = "week-card";
+    card.className = "part-card";
 
     const header = document.createElement("header");
     const weekLabel = document.createElement("p");
@@ -366,7 +366,7 @@ function renderBoard() {
     return card;
   });
 
-  dom.weekBoard.replaceChildren(...cards);
+  dom.partBoard.replaceChildren(...cards);
 }
 
 function renderNotes() {

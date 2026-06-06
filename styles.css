@@ -521,33 +521,33 @@ button {
   transition: width 180ms ease;
 }
 
-.week-board {
+.part-board {
   display: grid;
   grid-template-columns: repeat(4, minmax(190px, 1fr));
   gap: 14px;
 }
 
-.week-card {
+.part-card {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
 }
 
-.week-card header {
+.part-card header {
   padding: 16px;
   background: #17201d;
   color: #fff;
 }
 
-.week-card header p {
+.part-card header p {
   margin: 0 0 4px;
   color: rgba(255, 255, 255, 0.68);
   font-size: 0.8rem;
   font-weight: 800;
 }
 
-.week-card header h3 {
+.part-card header h3 {
   margin: 0;
   font-size: 1rem;
 }
@@ -642,7 +642,7 @@ button {
     grid-template-columns: repeat(2, minmax(260px, 1fr));
   }
 
-  .week-board {
+  .part-board {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
   }
 }
@@ -667,7 +667,7 @@ button {
   .practice-grid,
   .story-section,
   .review-grid,
-  .week-board {
+  .part-board {
     grid-template-columns: 1fr;
   }
 
