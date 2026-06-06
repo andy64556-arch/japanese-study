@@ -1,86 +1,801 @@
-const STORAGE_KEY = "my-vocabulary-practice-v2";
-
-const storyChapters = {
-  1: {
-    title: "Part 1",
-    context: "主角 Mia 想把英文變成輕鬆的小收藏，先從熟悉的學習單字開始。"
+const lessons = [
+  {
+    part: 1,
+    source: "Aesop-inspired",
+    theme: "龜兔賽跑",
+    summary: "用簡單英文寫出慢慢前進、保持穩定的故事。",
+    word: "race",
+    type: "noun / verb",
+    meaning: "比賽；賽跑",
+    note: "可以當名詞，也可以當動詞使用。",
+    details: ["a running race", "race to the finish", "join a race"],
+    phrases: [
+      ["a long race", "一場長賽跑"],
+      ["win the race", "贏得比賽"],
+      ["race slowly", "慢慢比賽"]
+    ],
+    examples: [
+      ["The tortoise joins a race with a calm smile.", "烏龜帶著平靜的微笑參加比賽。"],
+      ["The race begins on a warm road.", "比賽在一條溫暖的路上開始。"]
+    ],
+    sentenceTemplate: "The tortoise joins a race because ____.",
+    storyPrompt: "讓烏龜開始他的旅程。",
+    storyHint: "The tortoise joins a race because he wants to try.",
+    quiz: {
+      question: "Which sentence uses race as a noun?",
+      options: ["The race is long.", "They race quickly.", "I race home."],
+      answer: "The race is long."
+    }
   },
-  2: {
-    title: "Part 2",
-    context: "Mia 把英文放進生活場景：借書、點餐、確認安排，讓單字變成真的行動。"
+  {
+    part: 1,
+    source: "Aesop-inspired",
+    theme: "龜兔賽跑",
+    summary: "用簡單英文寫出慢慢前進、保持穩定的故事。",
+    word: "boast",
+    type: "verb",
+    meaning: "吹噓；誇耀",
+    note: "常用來描述太自信、一直說自己很厲害。",
+    details: ["boast loudly", "boast about speed", "do not boast"],
+    phrases: [
+      ["boast loudly", "大聲吹噓"],
+      ["boast about winning", "吹噓自己會贏"],
+      ["stop boasting", "停止吹噓"]
+    ],
+    examples: [
+      ["The hare boasts that he is faster than everyone.", "兔子吹噓自己比大家都快。"],
+      ["His boast makes the forest quiet.", "他的吹噓讓森林安靜下來。"]
+    ],
+    sentenceTemplate: "The hare boasts, but ____.",
+    storyPrompt: "寫出兔子的太過自信。",
+    storyHint: "The hare boasts, but the tortoise stays calm.",
+    quiz: {
+      question: "What does boast mean?",
+      options: ["to brag", "to sleep", "to whisper"],
+      answer: "to brag"
+    }
   },
-  3: {
-    title: "Part 3",
-    context: "Mia 在工作和討論中使用英文，學會說明進度、細節和自己的想法。"
+  {
+    part: 1,
+    source: "Aesop-inspired",
+    theme: "龜兔賽跑",
+    summary: "用簡單英文寫出慢慢前進、保持穩定的故事。",
+    word: "steady",
+    type: "adjective",
+    meaning: "穩定的；持續的",
+    note: "形容速度、心情或動作保持一致。",
+    details: ["steady steps", "steady progress", "a steady pace"],
+    phrases: [
+      ["steady steps", "穩定的步伐"],
+      ["steady progress", "穩定進步"],
+      ["stay steady", "保持穩定"]
+    ],
+    examples: [
+      ["The tortoise takes steady steps along the road.", "烏龜沿著路穩穩地走。"],
+      ["A steady heart helps him keep moving.", "穩定的心幫助他繼續前進。"]
+    ],
+    sentenceTemplate: "With steady steps, the tortoise ____.",
+    storyPrompt: "讓故事的節奏慢下來。",
+    storyHint: "With steady steps, the tortoise moves past the tall grass.",
+    quiz: {
+      question: "Which word is closest to steady?",
+      options: ["stable", "noisy", "lost"],
+      answer: "stable"
+    }
   },
-  4: {
-    title: "Part 4",
-    context: "Mia 整理收集到的單字、例句和想法，把它們寫成一段完整故事。"
+  {
+    part: 1,
+    source: "Aesop-inspired",
+    theme: "龜兔賽跑",
+    summary: "用簡單英文寫出慢慢前進、保持穩定的故事。",
+    word: "patient",
+    type: "adjective",
+    meaning: "有耐心的",
+    note: "形容願意等待、不急躁。",
+    details: ["be patient", "a patient friend", "patient practice"],
+    phrases: [
+      ["be patient", "有耐心"],
+      ["a patient runner", "有耐心的跑者"],
+      ["patient practice", "耐心練習"]
+    ],
+    examples: [
+      ["The tortoise is patient when the road feels long.", "當道路感覺很長時，烏龜很有耐心。"],
+      ["A patient learner repeats the word again.", "有耐心的學習者再重複一次這個單字。"]
+    ],
+    sentenceTemplate: "The tortoise is patient when ____.",
+    storyPrompt: "補上烏龜不放棄的原因。",
+    storyHint: "The tortoise is patient when the hill becomes steep.",
+    quiz: {
+      question: "A patient person can ____.",
+      options: ["wait calmly", "boast loudly", "quit fast"],
+      answer: "wait calmly"
+    }
+  },
+  {
+    part: 1,
+    source: "Aesop-inspired",
+    theme: "龜兔賽跑",
+    summary: "用簡單英文寫出慢慢前進、保持穩定的故事。",
+    word: "rest",
+    type: "noun / verb",
+    meaning: "休息",
+    note: "可以表示休息這件事，也可以表示正在休息。",
+    details: ["take a rest", "rest under a tree", "need rest"],
+    phrases: [
+      ["take a rest", "休息一下"],
+      ["rest under a tree", "在樹下休息"],
+      ["need more rest", "需要更多休息"]
+    ],
+    examples: [
+      ["The hare stops to rest under a tree.", "兔子停下來在樹下休息。"],
+      ["A short rest becomes a long pause.", "短短的休息變成長長的停頓。"]
+    ],
+    sentenceTemplate: "The hare stops to rest because ____.",
+    storyPrompt: "寫出故事的轉折。",
+    storyHint: "The hare stops to rest because he feels too sure.",
+    quiz: {
+      question: "Which phrase means 休息一下?",
+      options: ["take a rest", "make a race", "find a boast"],
+      answer: "take a rest"
+    }
+  },
+  {
+    part: 1,
+    source: "Aesop-inspired",
+    theme: "龜兔賽跑",
+    summary: "用簡單英文寫出慢慢前進、保持穩定的故事。",
+    word: "finish",
+    type: "noun / verb",
+    meaning: "完成；終點",
+    note: "可以表示完成某件事，也可以表示比賽的終點。",
+    details: ["finish the race", "near the finish", "finish a sentence"],
+    phrases: [
+      ["finish the race", "完成比賽"],
+      ["near the finish", "接近終點"],
+      ["finish the sentence", "完成句子"]
+    ],
+    examples: [
+      ["The tortoise reaches the finish with steady steps.", "烏龜用穩定的步伐到達終點。"],
+      ["He learns that a slow finish can still be strong.", "他學到慢慢完成也可以很有力量。"]
+    ],
+    sentenceTemplate: "At the finish, the tortoise ____.",
+    storyPrompt: "完成這段小故事。",
+    storyHint: "At the finish, the tortoise smiles at his steady steps.",
+    quiz: {
+      question: "What can you finish?",
+      options: ["a sentence", "a loud", "a tiny"],
+      answer: "a sentence"
+    }
+  },
+  {
+    part: 1,
+    source: "Aesop-inspired",
+    theme: "龜兔賽跑",
+    summary: "用簡單英文寫出慢慢前進、保持穩定的故事。",
+    word: "humble",
+    type: "adjective",
+    meaning: "謙虛的",
+    note: "形容不驕傲，願意學習。",
+    details: ["stay humble", "a humble winner", "humble words"],
+    phrases: [
+      ["stay humble", "保持謙虛"],
+      ["a humble winner", "謙虛的贏家"],
+      ["humble words", "謙虛的話"]
+    ],
+    examples: [
+      ["The tortoise stays humble after the race.", "比賽後，烏龜保持謙虛。"],
+      ["The hare learns to be humble too.", "兔子也學會謙虛。"]
+    ],
+    sentenceTemplate: "The lesson is to stay humble and ____.",
+    storyPrompt: "寫出這個 Part 的故事寓意。",
+    storyHint: "The lesson is to stay humble and keep moving.",
+    quiz: {
+      question: "A humble person does not ____.",
+      options: ["brag too much", "learn slowly", "help others"],
+      answer: "brag too much"
+    }
+  },
+  {
+    part: 2,
+    source: "Aesop-inspired",
+    theme: "獅子與老鼠",
+    summary: "用單字寫出小小善意帶來大幫助的故事。",
+    word: "tiny",
+    type: "adjective",
+    meaning: "微小的；很小的",
+    note: "比 small 更有小巧、微小的感覺。",
+    details: ["a tiny mouse", "tiny steps", "a tiny sound"],
+    phrases: [
+      ["a tiny mouse", "一隻小老鼠"],
+      ["a tiny sound", "細小的聲音"],
+      ["tiny steps", "小小的步伐"]
+    ],
+    examples: [
+      ["A tiny mouse runs across the lion's paw.", "一隻小老鼠跑過獅子的爪子。"],
+      ["The tiny sound wakes the sleeping lion.", "那細小的聲音吵醒了睡著的獅子。"]
+    ],
+    sentenceTemplate: "A tiny mouse ____.",
+    storyPrompt: "讓小老鼠登場。",
+    storyHint: "A tiny mouse runs through the grass.",
+    quiz: {
+      question: "Tiny means ____.",
+      options: ["very small", "very loud", "very angry"],
+      answer: "very small"
+    }
+  },
+  {
+    part: 2,
+    source: "Aesop-inspired",
+    theme: "獅子與老鼠",
+    summary: "用單字寫出小小善意帶來大幫助的故事。",
+    word: "trap",
+    type: "noun / verb",
+    meaning: "陷阱；困住",
+    note: "可以是名詞，也可以當動詞表示被困住。",
+    details: ["a rope trap", "fall into a trap", "trap the lion"],
+    phrases: [
+      ["a rope trap", "繩子的陷阱"],
+      ["fall into a trap", "掉進陷阱"],
+      ["feel trapped", "感到被困住"]
+    ],
+    examples: [
+      ["The lion is caught in a rope trap.", "獅子被困在繩子的陷阱裡。"],
+      ["The trap is strong, but the mouse has sharp teeth.", "陷阱很牢固，但老鼠有尖尖的牙齒。"]
+    ],
+    sentenceTemplate: "The lion is trapped, so ____.",
+    storyPrompt: "寫出需要幫忙的時刻。",
+    storyHint: "The lion is trapped, so he calls for help.",
+    quiz: {
+      question: "Which phrase fits trap?",
+      options: ["fall into a trap", "drink a trap", "smile a trap"],
+      answer: "fall into a trap"
+    }
+  },
+  {
+    part: 2,
+    source: "Aesop-inspired",
+    theme: "獅子與老鼠",
+    summary: "用單字寫出小小善意帶來大幫助的故事。",
+    word: "promise",
+    type: "noun / verb",
+    meaning: "承諾；答應",
+    note: "可以表示說出口的承諾，也可以表示做出承諾。",
+    details: ["make a promise", "keep a promise", "promise to help"],
+    phrases: [
+      ["make a promise", "做出承諾"],
+      ["keep a promise", "遵守承諾"],
+      ["promise to help", "答應幫忙"]
+    ],
+    examples: [
+      ["The mouse makes a promise to help later.", "老鼠承諾之後會幫忙。"],
+      ["A small promise can become a big action.", "小小的承諾可以變成很大的行動。"]
+    ],
+    sentenceTemplate: "The mouse makes a promise to ____.",
+    storyPrompt: "加上小老鼠的承諾。",
+    storyHint: "The mouse makes a promise to help the lion.",
+    quiz: {
+      question: "To keep a promise means to ____.",
+      options: ["do what you said", "forget a word", "run away fast"],
+      answer: "do what you said"
+    }
+  },
+  {
+    part: 2,
+    source: "Aesop-inspired",
+    theme: "獅子與老鼠",
+    summary: "用單字寫出小小善意帶來大幫助的故事。",
+    word: "rescue",
+    type: "verb / noun",
+    meaning: "拯救；救援",
+    note: "常用在把人或動物從危險中救出來。",
+    details: ["rescue a friend", "a quick rescue", "rescue the lion"],
+    phrases: [
+      ["rescue a friend", "拯救朋友"],
+      ["a brave rescue", "勇敢的救援"],
+      ["rescue the lion", "救出獅子"]
+    ],
+    examples: [
+      ["The mouse returns to rescue the lion.", "老鼠回來救獅子。"],
+      ["The rescue begins with one small bite.", "救援從小小的一口開始。"]
+    ],
+    sentenceTemplate: "The mouse rescues the lion by ____.",
+    storyPrompt: "寫出小老鼠怎麼幫忙。",
+    storyHint: "The mouse rescues the lion by biting the rope.",
+    quiz: {
+      question: "Rescue means ____.",
+      options: ["save", "boast", "sleep"],
+      answer: "save"
+    }
+  },
+  {
+    part: 2,
+    source: "Aesop-inspired",
+    theme: "獅子與老鼠",
+    summary: "用單字寫出小小善意帶來大幫助的故事。",
+    word: "kindness",
+    type: "noun",
+    meaning: "善意；仁慈",
+    note: "表示溫柔、願意幫助別人的態度。",
+    details: ["show kindness", "an act of kindness", "kindness matters"],
+    phrases: [
+      ["show kindness", "展現善意"],
+      ["an act of kindness", "一個善意的行動"],
+      ["small kindness", "小小的善意"]
+    ],
+    examples: [
+      ["The lion remembers the mouse's kindness.", "獅子記得老鼠的善意。"],
+      ["Kindness makes the forest feel safer.", "善意讓森林感覺更安全。"]
+    ],
+    sentenceTemplate: "Kindness can ____.",
+    storyPrompt: "寫出故事中的溫暖。",
+    storyHint: "Kindness can turn strangers into friends.",
+    quiz: {
+      question: "Kindness is close to ____.",
+      options: ["goodness", "speed", "noise"],
+      answer: "goodness"
+    }
+  },
+  {
+    part: 2,
+    source: "Aesop-inspired",
+    theme: "獅子與老鼠",
+    summary: "用單字寫出小小善意帶來大幫助的故事。",
+    word: "grateful",
+    type: "adjective",
+    meaning: "感激的",
+    note: "形容感謝別人的心情。",
+    details: ["feel grateful", "a grateful smile", "grateful for help"],
+    phrases: [
+      ["feel grateful", "感到感激"],
+      ["a grateful smile", "感激的微笑"],
+      ["grateful for help", "感謝幫助"]
+    ],
+    examples: [
+      ["The lion feels grateful for the mouse's help.", "獅子很感激老鼠的幫忙。"],
+      ["A grateful heart remembers small kindness.", "感激的心會記得小小的善意。"]
+    ],
+    sentenceTemplate: "The lion feels grateful because ____.",
+    storyPrompt: "讓獅子說出他的感謝。",
+    storyHint: "The lion feels grateful because the mouse kept her promise.",
+    quiz: {
+      question: "A grateful person says ____.",
+      options: ["thank you", "go away", "I win"],
+      answer: "thank you"
+    }
+  },
+  {
+    part: 2,
+    source: "Aesop-inspired",
+    theme: "獅子與老鼠",
+    summary: "用單字寫出小小善意帶來大幫助的故事。",
+    word: "free",
+    type: "adjective / verb",
+    meaning: "自由的；釋放",
+    note: "可以表示自由，也可以表示把某人放出來。",
+    details: ["set free", "feel free", "free the lion"],
+    phrases: [
+      ["set free", "釋放"],
+      ["feel free", "感到自由"],
+      ["free the lion", "放出獅子"]
+    ],
+    examples: [
+      ["The mouse helps set the lion free.", "老鼠幫忙讓獅子重獲自由。"],
+      ["The lion walks free through the grass.", "獅子自由地走過草地。"]
+    ],
+    sentenceTemplate: "At last, the lion is free and ____.",
+    storyPrompt: "完成這個 Part 的故事寓意。",
+    storyHint: "At last, the lion is free and learns to respect small friends.",
+    quiz: {
+      question: "Set free means ____.",
+      options: ["let go", "tie up", "boast about"],
+      answer: "let go"
+    }
+  },
+  {
+    part: 3,
+    source: "Fairy-tale-inspired",
+    theme: "灰姑娘",
+    summary: "用童話單字寫出改變、勇氣和選擇。",
+    word: "kind",
+    type: "adjective",
+    meaning: "善良的；親切的",
+    note: "形容人溫柔、願意幫忙。",
+    details: ["a kind heart", "kind words", "be kind"],
+    phrases: [
+      ["a kind heart", "善良的心"],
+      ["kind words", "親切的話"],
+      ["be kind", "保持善良"]
+    ],
+    examples: [
+      ["The girl keeps a kind heart in a cold house.", "女孩在冷淡的家中仍保持善良的心。"],
+      ["Her kind words make a small bird stay near.", "她親切的話讓小鳥停在附近。"]
+    ],
+    sentenceTemplate: "The girl is kind even when ____.",
+    storyPrompt: "寫出主角的個性。",
+    storyHint: "The girl is kind even when the house feels cold.",
+    quiz: {
+      question: "Kind means ____.",
+      options: ["nice", "empty", "late"],
+      answer: "nice"
+    }
+  },
+  {
+    part: 3,
+    source: "Fairy-tale-inspired",
+    theme: "灰姑娘",
+    summary: "用童話單字寫出改變、勇氣和選擇。",
+    word: "invitation",
+    type: "noun",
+    meaning: "邀請；邀請函",
+    note: "通常指邀請某人參加活動。",
+    details: ["receive an invitation", "send an invitation", "a royal invitation"],
+    phrases: [
+      ["receive an invitation", "收到邀請"],
+      ["a royal invitation", "皇家的邀請"],
+      ["accept an invitation", "接受邀請"]
+    ],
+    examples: [
+      ["An invitation arrives at the house.", "一封邀請函到了家裡。"],
+      ["The invitation opens a new path for the girl.", "這封邀請為女孩打開新的道路。"]
+    ],
+    sentenceTemplate: "The invitation says ____.",
+    storyPrompt: "讓新的機會出現。",
+    storyHint: "The invitation says everyone may come to the dance.",
+    quiz: {
+      question: "An invitation asks someone to ____.",
+      options: ["come", "hide", "sleep"],
+      answer: "come"
+    }
+  },
+  {
+    part: 3,
+    source: "Fairy-tale-inspired",
+    theme: "灰姑娘",
+    summary: "用童話單字寫出改變、勇氣和選擇。",
+    word: "midnight",
+    type: "noun",
+    meaning: "午夜",
+    note: "指夜裡十二點。",
+    details: ["before midnight", "at midnight", "midnight bell"],
+    phrases: [
+      ["before midnight", "午夜之前"],
+      ["at midnight", "在午夜"],
+      ["the midnight bell", "午夜鐘聲"]
+    ],
+    examples: [
+      ["She must leave before midnight.", "她必須在午夜之前離開。"],
+      ["The midnight bell makes her run through the gate.", "午夜鐘聲讓她跑過大門。"]
+    ],
+    sentenceTemplate: "Before midnight, she must ____.",
+    storyPrompt: "加入時間限制。",
+    storyHint: "Before midnight, she must return home.",
+    quiz: {
+      question: "Midnight is ____.",
+      options: ["12:00 at night", "early morning", "a small shoe"],
+      answer: "12:00 at night"
+    }
+  },
+  {
+    part: 3,
+    source: "Fairy-tale-inspired",
+    theme: "灰姑娘",
+    summary: "用童話單字寫出改變、勇氣和選擇。",
+    word: "courage",
+    type: "noun",
+    meaning: "勇氣",
+    note: "面對害怕或困難時仍願意行動。",
+    details: ["have courage", "find courage", "quiet courage"],
+    phrases: [
+      ["have courage", "有勇氣"],
+      ["find courage", "找到勇氣"],
+      ["quiet courage", "安靜的勇氣"]
+    ],
+    examples: [
+      ["She finds courage and steps into the bright hall.", "她找到勇氣，走進明亮的大廳。"],
+      ["Courage helps her share a clear idea.", "勇氣幫助她分享清楚的想法。"]
+    ],
+    sentenceTemplate: "With courage, she ____.",
+    storyPrompt: "寫出主角勇敢的一步。",
+    storyHint: "With courage, she walks into the hall.",
+    quiz: {
+      question: "Courage helps you ____.",
+      options: ["try when afraid", "boast too much", "sleep longer"],
+      answer: "try when afraid"
+    }
+  },
+  {
+    part: 3,
+    source: "Fairy-tale-inspired",
+    theme: "灰姑娘",
+    summary: "用童話單字寫出改變、勇氣和選擇。",
+    word: "slipper",
+    type: "noun",
+    meaning: "拖鞋；鞋",
+    note: "童話中常指一隻特別的鞋。",
+    details: ["a glass slipper", "lose a slipper", "find the slipper"],
+    phrases: [
+      ["a glass slipper", "玻璃鞋"],
+      ["lose a slipper", "掉了一隻鞋"],
+      ["find the slipper", "找到那隻鞋"]
+    ],
+    examples: [
+      ["A slipper shines on the palace steps.", "一隻鞋在宮殿階梯上發亮。"],
+      ["The slipper becomes a clue to her story.", "那隻鞋成了她故事的線索。"]
+    ],
+    sentenceTemplate: "The slipper shows that ____.",
+    storyPrompt: "讓物品成為線索。",
+    storyHint: "The slipper shows that she was really there.",
+    quiz: {
+      question: "A slipper is a kind of ____.",
+      options: ["shoe", "letter", "race"],
+      answer: "shoe"
+    }
+  },
+  {
+    part: 3,
+    source: "Fairy-tale-inspired",
+    theme: "灰姑娘",
+    summary: "用童話單字寫出改變、勇氣和選擇。",
+    word: "change",
+    type: "noun / verb",
+    meaning: "改變；變化",
+    note: "可指事情變得不同，也可表示主動改變。",
+    details: ["a big change", "change slowly", "change her life"],
+    phrases: [
+      ["a big change", "很大的改變"],
+      ["change her life", "改變她的人生"],
+      ["things change", "事情改變"]
+    ],
+    examples: [
+      ["One kind chance can change her life.", "一個善意的機會能改變她的人生。"],
+      ["She changes from afraid to brave.", "她從害怕變得勇敢。"]
+    ],
+    sentenceTemplate: "Her story begins to change when ____.",
+    storyPrompt: "寫出故事的轉變。",
+    storyHint: "Her story begins to change when she believes in herself.",
+    quiz: {
+      question: "Change means ____.",
+      options: ["become different", "stay silent", "fall asleep"],
+      answer: "become different"
+    }
+  },
+  {
+    part: 3,
+    source: "Fairy-tale-inspired",
+    theme: "灰姑娘",
+    summary: "用童話單字寫出改變、勇氣和選擇。",
+    word: "choose",
+    type: "verb",
+    meaning: "選擇",
+    note: "從不同選項中決定一個。",
+    details: ["choose kindness", "choose a path", "choose to speak"],
+    phrases: [
+      ["choose kindness", "選擇善良"],
+      ["choose a path", "選擇一條路"],
+      ["choose to speak", "選擇說出來"]
+    ],
+    examples: [
+      ["She chooses kindness even after hard moments.", "即使經歷困難時刻，她仍選擇善良。"],
+      ["The story asks what kind of person we choose to be.", "這個故事問我們選擇成為什麼樣的人。"]
+    ],
+    sentenceTemplate: "She chooses to ____.",
+    storyPrompt: "完成這個 Part 的故事寓意。",
+    storyHint: "She chooses to be brave and kind.",
+    quiz: {
+      question: "Choose means ____.",
+      options: ["pick", "trap", "rest"],
+      answer: "pick"
+    }
+  },
+  {
+    part: 4,
+    source: "Andersen-inspired",
+    theme: "醜小鴨",
+    summary: "用單字寫出不同、成長和找到歸屬。",
+    word: "different",
+    type: "adjective",
+    meaning: "不同的",
+    note: "用來比較兩件事或兩個人不一樣。",
+    details: ["look different", "feel different", "a different path"],
+    phrases: [
+      ["look different", "看起來不同"],
+      ["feel different", "感到不同"],
+      ["a different path", "不同的道路"]
+    ],
+    examples: [
+      ["The young bird looks different from the others.", "這隻小鳥看起來和其他鳥不同。"],
+      ["Being different makes him ask many questions.", "與眾不同讓他有許多疑問。"]
+    ],
+    sentenceTemplate: "The young bird feels different because ____.",
+    storyPrompt: "寫出主角的起點。",
+    storyHint: "The young bird feels different because his feathers are gray.",
+    quiz: {
+      question: "Different means ____.",
+      options: ["not the same", "very kind", "full of rope"],
+      answer: "not the same"
+    }
+  },
+  {
+    part: 4,
+    source: "Andersen-inspired",
+    theme: "醜小鴨",
+    summary: "用單字寫出不同、成長和找到歸屬。",
+    word: "lonely",
+    type: "adjective",
+    meaning: "孤單的",
+    note: "形容覺得沒有陪伴或不被理解。",
+    details: ["feel lonely", "a lonely walk", "lonely but hopeful"],
+    phrases: [
+      ["feel lonely", "感到孤單"],
+      ["a lonely walk", "孤單的散步"],
+      ["lonely but hopeful", "孤單但有希望"]
+    ],
+    examples: [
+      ["He feels lonely beside the cold pond.", "他在冰冷的池塘旁感到孤單。"],
+      ["A lonely walk still carries a little hope.", "孤單的路上仍帶著一點希望。"]
+    ],
+    sentenceTemplate: "He feels lonely, but ____.",
+    storyPrompt: "寫出低落但沒有放棄的心情。",
+    storyHint: "He feels lonely, but he keeps walking.",
+    quiz: {
+      question: "Lonely means feeling ____.",
+      options: ["alone", "free", "royal"],
+      answer: "alone"
+    }
+  },
+  {
+    part: 4,
+    source: "Andersen-inspired",
+    theme: "醜小鴨",
+    summary: "用單字寫出不同、成長和找到歸屬。",
+    word: "reflection",
+    type: "noun",
+    meaning: "倒影；反思",
+    note: "可以指水中或鏡中的影像，也可以指思考。",
+    details: ["see a reflection", "water reflection", "quiet reflection"],
+    phrases: [
+      ["see a reflection", "看見倒影"],
+      ["a water reflection", "水中的倒影"],
+      ["quiet reflection", "安靜的反思"]
+    ],
+    examples: [
+      ["He sees his reflection in the water.", "他在水中看見自己的倒影。"],
+      ["The reflection looks unfamiliar at first.", "那個倒影一開始看起來很陌生。"]
+    ],
+    sentenceTemplate: "In the reflection, he sees ____.",
+    storyPrompt: "讓主角看見自己的變化。",
+    storyHint: "In the reflection, he sees a stronger bird.",
+    quiz: {
+      question: "A reflection can appear in ____.",
+      options: ["water", "a promise", "a boast"],
+      answer: "water"
+    }
+  },
+  {
+    part: 4,
+    source: "Andersen-inspired",
+    theme: "醜小鴨",
+    summary: "用單字寫出不同、成長和找到歸屬。",
+    word: "swan",
+    type: "noun",
+    meaning: "天鵝",
+    note: "一種優雅的大型水鳥。",
+    details: ["a white swan", "young swan", "swan feathers"],
+    phrases: [
+      ["a white swan", "一隻白天鵝"],
+      ["young swan", "年輕的天鵝"],
+      ["swan feathers", "天鵝羽毛"]
+    ],
+    examples: [
+      ["The young bird grows into a swan.", "這隻小鳥長成了天鵝。"],
+      ["The swan glides across the quiet lake.", "天鵝滑過安靜的湖面。"]
+    ],
+    sentenceTemplate: "The young bird becomes a swan and ____.",
+    storyPrompt: "寫出身份揭曉的時刻。",
+    storyHint: "The young bird becomes a swan and lifts his head.",
+    quiz: {
+      question: "A swan is a kind of ____.",
+      options: ["bird", "shoe", "trap"],
+      answer: "bird"
+    }
+  },
+  {
+    part: 4,
+    source: "Andersen-inspired",
+    theme: "醜小鴨",
+    summary: "用單字寫出不同、成長和找到歸屬。",
+    word: "belong",
+    type: "verb",
+    meaning: "屬於；適合在某處",
+    note: "常用 belong with 或 belong here 表示歸屬感。",
+    details: ["belong here", "belong with friends", "find where you belong"],
+    phrases: [
+      ["belong here", "屬於這裡"],
+      ["belong with friends", "和朋友在一起很適合"],
+      ["find where you belong", "找到歸屬"]
+    ],
+    examples: [
+      ["He begins to feel that he belongs by the lake.", "他開始覺得自己屬於這片湖。"],
+      ["Finding where you belong can take time.", "找到歸屬可能需要時間。"]
+    ],
+    sentenceTemplate: "He belongs with ____.",
+    storyPrompt: "寫出主角找到歸屬。",
+    storyHint: "He belongs with the swans on the lake.",
+    quiz: {
+      question: "Belong means to ____.",
+      options: ["fit or be part of", "run a race", "lose a shoe"],
+      answer: "fit or be part of"
+    }
+  },
+  {
+    part: 4,
+    source: "Andersen-inspired",
+    theme: "醜小鴨",
+    summary: "用單字寫出不同、成長和找到歸屬。",
+    word: "gentle",
+    type: "adjective",
+    meaning: "溫柔的；柔和的",
+    note: "形容動作、聲音或個性不粗魯。",
+    details: ["a gentle welcome", "gentle water", "be gentle"],
+    phrases: [
+      ["a gentle welcome", "溫柔的歡迎"],
+      ["gentle water", "柔和的水面"],
+      ["be gentle", "溫柔一點"]
+    ],
+    examples: [
+      ["The swans welcome him with gentle care.", "天鵝們用溫柔的關心歡迎他。"],
+      ["Gentle words help him feel safe.", "溫柔的話讓他感到安心。"]
+    ],
+    sentenceTemplate: "The gentle swans ____.",
+    storyPrompt: "讓故事變得溫暖。",
+    storyHint: "The gentle swans make room for him.",
+    quiz: {
+      question: "Gentle is close to ____.",
+      options: ["soft", "trapped", "boastful"],
+      answer: "soft"
+    }
+  },
+  {
+    part: 4,
+    source: "Andersen-inspired",
+    theme: "醜小鴨",
+    summary: "用單字寫出不同、成長和找到歸屬。",
+    word: "beautiful",
+    type: "adjective",
+    meaning: "美麗的",
+    note: "可以形容外表、聲音、想法或故事。",
+    details: ["a beautiful bird", "beautiful feathers", "a beautiful ending"],
+    phrases: [
+      ["a beautiful bird", "一隻美麗的鳥"],
+      ["beautiful feathers", "美麗的羽毛"],
+      ["a beautiful ending", "美麗的結尾"]
+    ],
+    examples: [
+      ["The bird discovers a beautiful shape in the water.", "那隻鳥在水中發現美麗的樣子。"],
+      ["His story has a beautiful ending because he keeps going.", "他的故事有美麗的結局，因為他一直走下去。"]
+    ],
+    sentenceTemplate: "The ending is beautiful because ____.",
+    storyPrompt: "完成整本故事的溫柔收尾。",
+    storyHint: "The ending is beautiful because he finally feels at home.",
+    quiz: {
+      question: "Beautiful means ____.",
+      options: ["lovely", "tiny", "late"],
+      answer: "lovely"
+    }
   }
-};
-
-const lessonRows = [
-  [1, "學習起點", "practice", "verb / noun", "練習；實作", "把能力變熟的重複行動。", ["practice English", "練習英文"], ["regular practice", "固定練習"], ["practice more", "多練習"], "I practice English when I have quiet time.", "有安靜時間時，我練習英文。", "I need more practice before the test.", "考試前我需要更多練習。", "I practice ___ when ___.", ["練習", "忘記", "購買"]],
-  [1, "學習起點", "improve", "verb", "改善；進步", "讓能力、狀態或結果變得更好。", ["improve my English", "改善我的英文"], ["improve slowly", "慢慢進步"], ["improve a skill", "提升技能"], "I want to improve my English speaking.", "我想改善英文口說。", "My writing improved with regular practice.", "固定練習後，我的寫作進步了。", "I want to improve my ___.", ["改善", "等待", "借用"]],
-  [1, "學習起點", "review", "verb / noun", "複習；回顧", "重新看學過的內容，讓記憶更穩。", ["review notes", "複習筆記"], ["quick review", "快速複習"], ["review vocabulary", "複習單字"], "I review five words before bed.", "我睡前複習五個單字。", "This is a quick review of this word.", "這是這個單字的快速複習。", "I review ___ before ___.", ["複習", "投票", "修理"]],
-  [1, "學習起點", "understand", "verb", "理解；明白", "知道內容的意思或原因。", ["understand a sentence", "理解句子"], ["understand the meaning", "理解意思"], ["easy to understand", "容易理解"], "I can understand this sentence.", "我可以理解這個句子。", "The example is easy to understand.", "這個例句很容易理解。", "I can understand ___.", ["理解", "關掉", "搬家"]],
-  [1, "學習起點", "remember", "verb", "記得；記住", "把資訊留在腦中，之後能想起來。", ["remember a word", "記住單字"], ["remember to do it", "記得去做"], ["easy to remember", "容易記住"], "I remember this word because I use it often.", "我記得這個字，因為我常使用它。", "This phrase is easy to remember.", "這個片語很容易記住。", "I remember ___ because ___.", ["記得", "拒絕", "安裝"]],
-  [1, "學習起點", "mistake", "noun", "錯誤", "做錯、寫錯或判斷錯的地方。", ["make a mistake", "犯錯"], ["common mistake", "常見錯誤"], ["learn from mistakes", "從錯誤中學習"], "It is okay to make a mistake.", "犯錯是可以的。", "I learn from my mistakes.", "我從錯誤中學習。", "I made a mistake in ___.", ["錯誤", "習慣", "價格"]],
-  [1, "學習起點", "habit", "noun", "習慣", "經常重複做的行為。", ["study habit", "學習習慣"], ["build a habit", "建立習慣"], ["good habit", "好習慣"], "Reading one sentence is my small habit.", "讀一句英文是我的小習慣。", "I want to build a good study habit.", "我想建立好的學習習慣。", "I want to build a habit of ___.", ["習慣", "預訂", "方向"]],
-  [2, "生活行動", "choose", "verb", "選擇", "從幾個選項中挑一個。", ["choose a topic", "選一個主題"], ["choose carefully", "仔細選擇"], ["choose one", "選一個"], "I choose one useful word for my story.", "我為故事選一個實用單字。", "Please choose one example and rewrite it.", "請選一個例句並改寫。", "I choose ___ because ___.", ["選擇", "複習", "到達"]],
-  [2, "生活行動", "prepare", "verb", "準備", "事先做好需要的東西或安排。", ["prepare for a test", "準備考試"], ["prepare notes", "準備筆記"], ["well prepared", "準備充分"], "I prepare three sentences before class.", "我上課前準備三個句子。", "I need to prepare for tomorrow's meeting.", "我需要準備明天的會議。", "I prepare ___ before ___.", ["準備", "比較", "取消"]],
-  [2, "生活行動", "borrow", "verb", "借入", "向別人借東西來用。", ["borrow a book", "借一本書"], ["borrow money", "借錢"], ["borrow from a friend", "向朋友借"], "Can I borrow your dictionary?", "我可以借你的字典嗎？", "I borrowed a book from the library.", "我從圖書館借了一本書。", "Can I borrow ___?", ["借入", "提高", "完成"]],
-  [2, "生活行動", "return", "verb / noun", "歸還；回來", "把東西還回去，或回到某處。", ["return a book", "歸還書"], ["return home", "回家"], ["return ticket", "回程票"], "I need to return this book tomorrow.", "我明天需要還這本書。", "She returned home after work.", "她下班後回家。", "I need to return ___ by ___.", ["歸還", "發音", "解釋"]],
-  [2, "生活行動", "order", "verb / noun", "點餐；訂購；順序", "在餐廳點東西，或安排次序。", ["order food", "點餐"], ["in order", "按順序"], ["place an order", "下訂單"], "I would like to order a cup of tea.", "我想點一杯茶。", "Put these words in order.", "把這些單字按順序排好。", "I would like to order ___.", ["點餐", "練習", "理解"]],
-  [2, "生活行動", "confirm", "verb", "確認", "確認資訊正確或安排沒問題。", ["confirm the time", "確認時間"], ["confirm a booking", "確認訂位"], ["confirm details", "確認細節"], "Could you confirm the meeting time?", "可以請你確認會議時間嗎？", "I want to confirm the details first.", "我想先確認細節。", "Could you confirm ___?", ["確認", "緊張", "細節"]],
-  [2, "生活行動", "explain", "verb", "解釋", "把原因、意思或方法說清楚。", ["explain clearly", "清楚解釋"], ["explain a word", "解釋單字"], ["explain to me", "向我解釋"], "Can you explain this word to me?", "你可以向我解釋這個單字嗎？", "I will explain my idea with an example.", "我會用例子解釋我的想法。", "Can you explain ___ to me?", ["解釋", "點餐", "歸還"]],
-  [3, "工作討論", "report", "noun / verb", "報告；回報", "整理資訊並說明結果。", ["write a report", "寫報告"], ["report a problem", "回報問題"], ["project report", "專案報告"], "I am working on the report now.", "我現在正在處理報告。", "Please report the problem to the team.", "請把問題回報給團隊。", "I am working on ___.", ["報告", "杯子", "習慣"]],
-  [3, "工作討論", "meeting", "noun", "會議", "為了討論事情而安排的聚會。", ["join a meeting", "參加會議"], ["meeting time", "會議時間"], ["team meeting", "團隊會議"], "The meeting starts at ten.", "會議十點開始。", "I need to prepare for the team meeting.", "我需要準備團隊會議。", "The meeting starts at ___.", ["會議", "句子", "價格"]],
-  [3, "工作討論", "deadline", "noun", "截止期限", "某件事必須完成的最後時間。", ["meet a deadline", "趕上截止期限"], ["before the deadline", "在期限前"], ["tight deadline", "很緊的期限"], "I need to finish this before the deadline.", "我需要在期限前完成這件事。", "The deadline is Friday.", "截止期限是星期五。", "I need to finish ___ before the deadline.", ["截止期限", "方向", "現金"]],
-  [3, "工作討論", "detail", "noun", "細節", "小但重要的資訊。", ["check the details", "檢查細節"], ["important detail", "重要細節"], ["more details", "更多細節"], "Please check the details before you send it.", "寄出前請檢查細節。", "I need more details about the plan.", "我需要更多關於計畫的細節。", "Please check the details of ___.", ["細節", "錯誤", "早餐"]],
-  [3, "工作討論", "suggest", "verb", "建議", "提出一個可能的做法或想法。", ["suggest an idea", "提出想法"], ["suggest a change", "建議修改"], ["strongly suggest", "強烈建議"], "I suggest we start with the main idea.", "我建議我們從主要想法開始。", "She suggested a better way to study.", "她建議了一個更好的學習方法。", "I suggest we ___.", ["建議", "歸還", "訂購"]],
-  [3, "工作討論", "decision", "noun", "決定", "想清楚後選定的結果。", ["make a decision", "做決定"], ["final decision", "最終決定"], ["quick decision", "快速決定"], "We need to make a decision now.", "我們現在需要做決定。", "This is not the final decision.", "這不是最終決定。", "We need to make a decision about ___.", ["決定", "片語", "車站"]],
-  [3, "工作討論", "progress", "noun", "進度；進展", "事情往前推進的狀態。", ["make progress", "取得進展"], ["check progress", "檢查進度"], ["study progress", "學習進度"], "I made progress after several practice sessions.", "幾次練習後，我有進步。", "Let's check our progress together.", "我們一起看看進度吧。", "I made progress in ___.", ["進度", "照片", "問題"]],
-  [4, "整理輸出", "useful", "adjective", "有用的；實用的", "能幫上忙或值得使用的。", ["useful phrase", "實用片語"], ["useful for work", "對工作有用"], ["very useful", "非常有用"], "This phrase is useful for work.", "這個片語對工作有用。", "I learned three useful words from this page.", "我從這一頁學了三個實用單字。", "This word is useful for ___.", ["有用的", "緊張的", "最近的"]],
-  [4, "整理輸出", "confident", "adjective", "有自信的", "相信自己可以做好。", ["feel confident", "感到有自信"], ["confident speaker", "有自信的說話者"], ["more confident", "更有自信"], "I feel more confident when I know useful words.", "知道實用單字時，我會更有自信。", "Practice helps me become confident.", "練習幫助我變得有自信。", "I feel confident when ___.", ["有自信的", "便宜的", "清楚地"]],
-  [4, "整理輸出", "simple", "adjective", "簡單的", "不複雜、容易理解。", ["simple sentence", "簡單句"], ["simple idea", "簡單想法"], ["keep it simple", "保持簡單"], "Write a simple sentence with this word.", "用這個字寫一個簡單句。", "The idea is simple but useful.", "這個想法簡單但有用。", "I can write a simple sentence about ___.", ["簡單的", "最後", "可用的"]],
-  [4, "整理輸出", "clear", "adjective / verb", "清楚的；清除", "容易理解，或把東西移除。", ["clear sentence", "清楚的句子"], ["clear idea", "清楚的想法"], ["make it clear", "把它說清楚"], "This example makes the word clear.", "這個例子讓單字變清楚。", "Please make your sentence clear.", "請把你的句子寫清楚。", "This example makes ___ clear.", ["清楚的", "預訂", "借入"]],
-  [4, "整理輸出", "example", "noun", "例子", "用來說明某個想法或規則的句子、事情。", ["give an example", "舉例"], ["example sentence", "例句"], ["good example", "好例子"], "Can you give me an example?", "你可以給我一個例子嗎？", "This example sentence helps me remember the word.", "這個例句幫我記住單字。", "Can you give me an example of ___?", ["例子", "截止期限", "進步"]],
-  [4, "整理輸出", "connect", "verb", "連結；連接", "把兩件事物或想法接在一起。", ["connect ideas", "連結想法"], ["connect words", "連結單字"], ["connect with life", "和生活連結"], "I connect this word with a real memory.", "我把這個單字和真實記憶連結。", "Try to connect new words with examples.", "試著把新單字和例句連結。", "I connect ___ with ___.", ["連結", "選擇", "點餐"]],
-  [4, "整理輸出", "summary", "noun", "摘要；總結", "把重點用簡短方式整理出來。", ["write a summary", "寫摘要"], ["short summary", "短摘要"], ["lesson summary", "課程總結"], "Write a short summary of this word.", "寫一個這個單字的短摘要。", "My summary has one example sentence.", "我的摘要有一個例句。", "My summary of ___ is ___.", ["摘要", "習慣", "會議"]]
 ];
 
-const lessons = lessonRows.map((row, index) => {
-  const [week, theme, word, type, meaning, note, phraseA, phraseB, phraseC, exampleA, translationA, exampleB, translationB, template, quizOptions] = row;
-  return {
-    week,
-    theme,
-    title: word,
-    word,
-    type,
-    meaning,
-    note,
-    phrases: [phraseA, phraseB, phraseC],
-    examples: [
-      [exampleA, translationA],
-      [exampleB, translationB]
-    ],
-    template,
-    level: index < 14 ? "A1" : "A2",
-    summary: `收集「${word}」，再用它寫出自己的英文句子。`,
-    quiz: {
-      question: `"${word}" 最接近哪個意思？`,
-      options: quizOptions,
-      answer: 0,
-      explain: `重點是把 "${word}" 放進自己的句子裡。`
-    }
-  };
-});
+const storageKey = "my-vocabulary-story-fables-v1";
 
-const state = loadState();
-let selectedDay = Math.min(state.selectedDay ?? state.completedDays, lessons.length - 1);
+const state = {
+  cardIndex: 0,
+  completedCards: 0,
+  stories: [],
+  notes: {},
+  selectedAnswer: ""
+};
 
-const dom = {
+const elements = {
   collectionLabel: document.querySelector("#collectionLabel"),
   storyCountLabel: document.querySelector("#storyCountLabel"),
   partTag: document.querySelector("#partTag"),
@@ -123,383 +838,303 @@ const dom = {
 };
 
 function loadState() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (saved && typeof saved === "object") {
-      return {
-        completedDays: Number(saved.completedDays) || 0,
-        selectedDay: Number(saved.selectedDay) || 0,
-        streak: Number(saved.streak) || 0,
-        lastCompletedDate: saved.lastCompletedDate || "",
-        notes: Array.isArray(saved.notes) ? saved.notes : [],
-        stories: Array.isArray(saved.stories) ? saved.stories : [],
-        drafts: saved.drafts && typeof saved.drafts === "object" ? saved.drafts : {}
-      };
-    }
-  } catch {
-    localStorage.removeItem(STORAGE_KEY);
-  }
+  const saved = localStorage.getItem(storageKey);
+  if (!saved) return;
 
-  return {
-    completedDays: 0,
-    selectedDay: 0,
-    streak: 0,
-    lastCompletedDate: "",
-    notes: [],
-    stories: [],
-    drafts: {}
-  };
+  try {
+    const parsed = JSON.parse(saved);
+    state.cardIndex = Number.isInteger(parsed.cardIndex) ? parsed.cardIndex : 0;
+    state.completedCards = Number.isInteger(parsed.completedCards) ? parsed.completedCards : 0;
+    state.stories = Array.isArray(parsed.stories) ? parsed.stories : [];
+    state.notes = parsed.notes && typeof parsed.notes === "object" ? parsed.notes : {};
+  } catch {
+    localStorage.removeItem(storageKey);
+  }
 }
 
 function saveState() {
-  state.selectedDay = selectedDay;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function todayKey() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function currentLesson() {
-  return lessons[selectedDay];
-}
-
-function renderLesson() {
-  const lesson = currentLesson();
-  dom.collectionLabel.textContent = `已收集 ${Math.min(state.completedDays, lessons.length)} 個`;
-  dom.storyCountLabel.textContent = `故事句 ${state.stories.length} 句`;
-  dom.partTag.textContent = `Part ${lesson.week}`;
-  dom.lessonTitle.textContent = lesson.word;
-  dom.lessonSummary.textContent = lesson.summary;
-  dom.featuredWord.textContent = lesson.word;
-  dom.featuredMeaning.textContent = lesson.meaning;
-  dom.wordTitle.textContent = lesson.word;
-  dom.lessonLevel.textContent = lesson.level;
-  dom.wordType.textContent = lesson.type;
-  dom.wordMeaning.textContent = lesson.meaning;
-  dom.sentenceGuide.textContent = `用 "${lesson.word}" 寫一句跟你自己有關的英文。`;
-
-  dom.wordDetailList.replaceChildren(
-    makeInfoRow("使用情境", lesson.note),
-    makeInfoRow("句型模板", lesson.template)
-  );
-
-  renderPhrases();
-  renderExamples();
-  renderStoryPrompt();
-  renderQuiz();
-  loadDrafts();
-  renderProgress();
-}
-
-function makeInfoRow(label, text) {
-  const row = document.createElement("div");
-  row.className = "info-row";
-  const strong = document.createElement("strong");
-  strong.textContent = label;
-  const span = document.createElement("span");
-  span.textContent = text;
-  row.append(strong, span);
-  return row;
-}
-
-function renderPhrases() {
-  dom.phraseList.replaceChildren(
-    ...currentLesson().phrases.map(([phrase, meaning]) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "phrase-card";
-      button.innerHTML = `<strong>${phrase}</strong><span>${meaning}</span>`;
-      button.addEventListener("click", () => {
-        dom.phraseInput.value = phrase;
-        saveDrafts();
-      });
-      return button;
+  localStorage.setItem(
+    storageKey,
+    JSON.stringify({
+      cardIndex: state.cardIndex,
+      completedCards: state.completedCards,
+      stories: state.stories,
+      notes: state.notes
     })
   );
 }
 
-function renderExamples() {
-  dom.exampleStack.replaceChildren(
-    ...currentLesson().examples.map(([en, zh]) => {
-      const card = document.createElement("div");
-      card.className = "example-card";
-      const strong = document.createElement("strong");
-      strong.textContent = en;
-      const span = document.createElement("span");
-      span.textContent = zh;
-      card.append(strong, span);
-      return card;
+function activeLesson() {
+  return lessons[state.cardIndex] || lessons[0];
+}
+
+function clampCardIndex(index) {
+  return Math.max(0, Math.min(index, lessons.length - 1));
+}
+
+function render() {
+  const lesson = activeLesson();
+  const progress = Math.round((state.completedCards / lessons.length) * 100);
+
+  elements.collectionLabel.textContent = `已收集 ${state.completedCards} 個`;
+  elements.storyCountLabel.textContent = `故事句 ${state.stories.length} 句`;
+  elements.partTag.textContent = `Part ${lesson.part}`;
+  elements.lessonTitle.textContent = `${lesson.theme}: ${lesson.word}`;
+  elements.lessonSummary.textContent = lesson.summary;
+  elements.featuredWord.textContent = lesson.word;
+  elements.featuredMeaning.textContent = lesson.meaning;
+  elements.wordTitle.textContent = lesson.word;
+  elements.lessonLevel.textContent = lesson.source;
+  elements.wordType.textContent = lesson.type;
+  elements.wordMeaning.textContent = lesson.meaning;
+  elements.storyPartLabel.textContent = `Part ${lesson.part}`;
+  elements.storyContext.textContent = `${lesson.theme} / ${lesson.source}`;
+  elements.storyPrompt.textContent = lesson.storyPrompt;
+  elements.storyHint.textContent = lesson.storyHint;
+  elements.sentenceGuide.textContent = lesson.sentenceTemplate;
+  elements.quizQuestion.textContent = lesson.quiz.question;
+  elements.progressText.textContent = `${state.completedCards} / ${lessons.length} cards`;
+  elements.progressBar.style.width = `${progress}%`;
+
+  elements.wordDetailList.innerHTML = lesson.details
+    .map((detail) => `<li>${detail}</li>`)
+    .join("");
+  elements.phraseList.innerHTML = lesson.phrases
+    .map(([phrase, zh]) => `<li><strong>${phrase}</strong><span>${zh}</span></li>`)
+    .join("");
+  elements.exampleStack.innerHTML = lesson.examples
+    .map(
+      ([sentence, zh]) => `
+        <article class="example-card">
+          <p>${sentence}</p>
+          <span>${zh}</span>
+        </article>
+      `
+    )
+    .join("");
+
+  renderQuiz(lesson);
+  renderParts();
+  renderStories();
+  renderNotes();
+}
+
+function renderQuiz(lesson) {
+  elements.quizResult.textContent = "";
+  elements.quizOptions.innerHTML = lesson.quiz.options
+    .map(
+      (option) => `
+        <button class="quiz-option" type="button" data-answer="${option}">
+          ${option}
+        </button>
+      `
+    )
+    .join("");
+}
+
+function renderParts() {
+  const groups = lessons.reduce((map, lesson) => {
+    if (!map.has(lesson.part)) {
+      map.set(lesson.part, []);
+    }
+    map.get(lesson.part).push(lesson);
+    return map;
+  }, new Map());
+
+  elements.partBoard.innerHTML = Array.from(groups.entries())
+    .map(([part, cards]) => {
+      const firstIndex = lessons.findIndex((lesson) => lesson.part === part);
+      const lastIndex = firstIndex + cards.length - 1;
+      const collected = Math.max(0, Math.min(state.completedCards - firstIndex, cards.length));
+      const active = state.cardIndex >= firstIndex && state.cardIndex <= lastIndex;
+      const title = cards[0].theme;
+      return `
+        <button class="part-card${active ? " is-active" : ""}" type="button" data-index="${firstIndex}">
+          <span>Part ${part}</span>
+          <strong>${title}</strong>
+          <small>${collected} / ${cards.length} words</small>
+        </button>
+      `;
     })
-  );
+    .join("");
 }
 
-function storyStarter(lesson) {
-  const starters = {
-    practice: "Mia practices English before her trip.",
-    improve: "Mia wants to improve her English before she meets new people.",
-    review: "Before bed, Mia reviews the words in her notebook.",
-    understand: "Mia starts to understand simple English signs.",
-    remember: "She remembers one useful word from yesterday.",
-    mistake: "Mia makes a small mistake, but she learns from it.",
-    habit: "Mia turns one-word notes into a small habit.",
-    choose: "Mia chooses a topic for her next English note.",
-    prepare: "She prepares three sentences before class.",
-    borrow: "Mia borrows an English book from the library.",
-    return: "Later, she returns the book with a new idea.",
-    order: "At a cafe, Mia orders tea in English.",
-    confirm: "She confirms the meeting time with a short message.",
-    explain: "Mia explains the new word to a friend.",
-    report: "At work, Mia writes a simple report in English.",
-    meeting: "During the meeting, she uses one sentence confidently.",
-    deadline: "Mia finishes her notes before the deadline.",
-    detail: "She checks every detail before sending the message.",
-    suggest: "Mia suggests a better way to practice.",
-    decision: "She makes a decision to keep learning in small steps.",
-    progress: "After many small steps, Mia sees her progress.",
-    useful: "Mia writes down the most useful phrase.",
-    confident: "She feels more confident when she speaks slowly.",
-    simple: "Mia keeps her sentence simple and clear.",
-    clear: "Her example makes the idea clear.",
-    example: "Mia gives an example from her own life.",
-    connect: "She connects the new word with a real memory.",
-    summary: "Mia writes a short summary of her learning journey."
-  };
-  return starters[lesson.word] || `Mia uses "${lesson.word}" in her story.`;
-}
-
-function renderStoryPrompt() {
-  const lesson = currentLesson();
-  const chapter = storyChapters[lesson.week];
-  dom.storyPartLabel.textContent = chapter.title;
-  dom.storyContext.textContent = chapter.context;
-  dom.storyPrompt.textContent = `故事任務：用 "${lesson.word}" 推進故事`;
-  dom.storyHint.textContent = storyStarter(lesson);
-}
-
-function renderStoryList() {
-  const stories = [...state.stories].sort((a, b) => a.day - b.day);
-  if (!stories.length) {
-    dom.storyList.innerHTML = '<p class="empty-notes">還沒有故事句。用收集到的單字寫一句，這裡會慢慢累積成一段故事。</p>';
+function renderStories() {
+  if (state.stories.length === 0) {
+    elements.storyList.innerHTML = `
+      <p class="empty-state">還沒有故事句。從目前這張單字卡開始寫一句。</p>
+    `;
     return;
   }
 
-  dom.storyList.replaceChildren(
-    ...stories.map((story) => {
-      const card = document.createElement("div");
-      card.className = "story-card";
-      const label = document.createElement("strong");
-      label.textContent = `句 ${story.day + 1}: ${story.word}`;
-      const text = document.createElement("p");
-      text.textContent = story.text;
-      card.append(label, text);
-      return card;
-    })
-  );
-}
-
-function renderQuiz() {
-  const quiz = currentLesson().quiz;
-  dom.quizQuestion.textContent = quiz.question;
-  dom.quizResult.textContent = "";
-  dom.quizOptions.replaceChildren(
-    ...quiz.options.map((option, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "quiz-option";
-      button.textContent = option;
-      button.addEventListener("click", () => {
-        [...dom.quizOptions.children].forEach((child) => child.classList.remove("correct", "wrong"));
-        button.classList.add(index === quiz.answer ? "correct" : "wrong");
-        if (index !== quiz.answer) dom.quizOptions.children[quiz.answer].classList.add("correct");
-        dom.quizResult.textContent = index === quiz.answer ? `答對。${quiz.explain}` : `再想一次。${quiz.explain}`;
-      });
-      return button;
-    })
-  );
-}
-
-function renderProgress() {
-  const done = Math.min(state.completedDays, lessons.length);
-  dom.progressText.textContent = `${done} / ${lessons.length}`;
-  dom.progressBar.style.width = `${(done / lessons.length) * 100}%`;
-  dom.saveCardButton.textContent = selectedDay < state.completedDays ? "已收集" : "儲存這張卡";
-}
-
-function renderBoard() {
-  const cards = [1, 2, 3, 4].map((week) => {
-    const weekLessons = lessons
-      .map((lesson, index) => ({ ...lesson, index }))
-      .filter((lesson) => lesson.week === week);
-    const card = document.createElement("article");
-    card.className = "part-card";
-
-    const header = document.createElement("header");
-    const weekLabel = document.createElement("p");
-    weekLabel.textContent = `Part ${week}`;
-    const title = document.createElement("h3");
-    title.textContent = weekLessons[0].theme;
-    header.append(weekLabel, title);
-
-    const list = document.createElement("div");
-    list.className = "day-list";
-    weekLessons.forEach((lesson) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "day-item";
-      if (lesson.index === selectedDay) button.classList.add("current");
-      if (lesson.index < state.completedDays) button.classList.add("done");
-      button.innerHTML = `
-        <span class="day-dot">${lesson.index + 1}</span>
-        <span>${lesson.word}</span>
-      `;
-      button.addEventListener("click", () => {
-        saveDrafts();
-        selectedDay = lesson.index;
-        saveState();
-        renderAll();
-      });
-      list.append(button);
-    });
-
-    card.append(header, list);
-    return card;
-  });
-
-  dom.partBoard.replaceChildren(...cards);
+  elements.storyList.innerHTML = state.stories
+    .map(
+      (story, index) => `
+        <article class="story-card">
+          <strong>句 ${index + 1}: ${story.word}</strong>
+          <p>${story.text}</p>
+        </article>
+      `
+    )
+    .join("");
 }
 
 function renderNotes() {
-  if (!state.notes.length) {
-    dom.notesList.innerHTML = '<p class="empty-notes">還沒有筆記。儲存句子後，內容會保存在這裡。</p>';
+  const entries = Object.entries(state.notes).slice(-5).reverse();
+  if (entries.length === 0) {
+    elements.notesList.innerHTML = `<p class="empty-state">可以記下容易混淆的單字或自己的例句。</p>`;
     return;
   }
 
-  dom.notesList.replaceChildren(
-    ...state.notes.slice(0, 12).map((note) => {
-      const card = document.createElement("div");
-      card.className = "note-card";
-      const time = document.createElement("time");
-      time.textContent = `${note.date}，單字 ${note.day + 1}：${note.word}`;
-      const text = document.createElement("p");
-      text.textContent = note.text;
-      card.append(time, text);
-      return card;
-    })
-  );
+  elements.notesList.innerHTML = entries
+    .map(
+      ([key, note]) => `
+        <article class="note-card">
+          <time>${key}</time>
+          <p>${note}</p>
+        </article>
+      `
+    )
+    .join("");
 }
 
-function saveDrafts() {
-  state.drafts[selectedDay] = {
-    phrase: dom.phraseInput.value,
-    sentence: dom.sentenceInput.value,
-    story: dom.storyInput.value,
-    note: dom.noteInput.value
-  };
-  saveState();
-}
-
-function loadDrafts() {
-  const draft = state.drafts[selectedDay] || {};
-  dom.phraseInput.value = draft.phrase || "";
-  dom.sentenceInput.value = draft.sentence || "";
-  dom.storyInput.value = draft.story || "";
-  dom.noteInput.value = draft.note || "";
-}
-
-function renderAll() {
-  renderLesson();
-  renderBoard();
-  renderNotes();
-  renderStoryList();
-}
-
-function saveNote() {
-  saveDrafts();
-  const lesson = currentLesson();
-  const parts = [
-    `單字：${lesson.word}（${lesson.meaning}）`,
-    dom.phraseInput.value.trim() ? `搭配短句：\n${dom.phraseInput.value.trim()}` : "",
-    dom.sentenceInput.value.trim() ? `延伸造句：\n${dom.sentenceInput.value.trim()}` : "",
-    dom.storyInput.value.trim() ? `故事句：\n${dom.storyInput.value.trim()}` : "",
-    dom.noteInput.value.trim() ? `筆記：\n${dom.noteInput.value.trim()}` : ""
-  ].filter(Boolean);
-
-  state.notes.unshift({
-    date: todayKey(),
-    day: selectedDay,
-    word: lesson.word,
-    text: parts.join("\n\n")
-  });
-  state.notes = state.notes.slice(0, 40);
-  saveState();
-  renderNotes();
+function insertText(target, text) {
+  const prefix = target.value.trim().length > 0 ? "\n" : "";
+  target.value = `${target.value}${prefix}${text}`;
+  target.focus();
 }
 
 function saveStory() {
-  saveDrafts();
-  const lesson = currentLesson();
-  const text = dom.storyInput.value.trim() || storyStarter(lesson);
-  const existingIndex = state.stories.findIndex((story) => story.day === selectedDay);
-  const story = {
-    date: todayKey(),
-    day: selectedDay,
+  const lesson = activeLesson();
+  const text = elements.storyInput.value.trim();
+  if (!text) return false;
+
+  const existingIndex = state.stories.findIndex((story) => story.cardIndex === state.cardIndex);
+  const nextStory = {
+    cardIndex: state.cardIndex,
     word: lesson.word,
+    part: lesson.part,
     text
   };
 
   if (existingIndex >= 0) {
-    state.stories[existingIndex] = story;
+    state.stories[existingIndex] = nextStory;
   } else {
-    state.stories.push(story);
+    state.stories.push(nextStory);
   }
-  state.stories = state.stories
-    .sort((a, b) => a.day - b.day)
-    .slice(0, lessons.length);
+
+  elements.storyInput.value = "";
   saveState();
-  renderStoryList();
+  render();
+  return true;
 }
 
-function completeDay() {
+function saveNote() {
+  const note = elements.noteInput.value.trim();
+  if (!note) return false;
+
+  const lesson = activeLesson();
+  state.notes[`${lesson.word} #${state.cardIndex + 1}`] = note;
+  elements.noteInput.value = "";
+  saveState();
+  renderNotes();
+  return true;
+}
+
+function saveCard() {
   saveStory();
   saveNote();
-  state.completedDays = Math.max(state.completedDays, selectedDay + 1);
-  if (selectedDay < lessons.length - 1) selectedDay += 1;
+  state.completedCards = Math.max(state.completedCards, state.cardIndex + 1);
+  state.cardIndex = clampCardIndex(state.cardIndex + 1);
   saveState();
-  renderAll();
+  render();
 }
 
-function resetProgress() {
-  const confirmed = window.confirm("確定要清除所有進度、草稿和筆記嗎？");
-  if (!confirmed) return;
-  localStorage.removeItem(STORAGE_KEY);
-  Object.assign(state, loadState());
-  selectedDay = 0;
-  renderAll();
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const area = document.createElement("textarea");
+  area.value = text;
+  document.body.append(area);
+  area.select();
+  document.execCommand("copy");
+  area.remove();
 }
 
-dom.saveCardButton.addEventListener("click", completeDay);
-dom.copyWordButton.addEventListener("click", () => {
-  dom.sentenceInput.value = currentLesson().word;
-  saveDrafts();
-});
-dom.copyExampleButton.addEventListener("click", () => {
-  dom.sentenceInput.value = currentLesson().examples[0][0];
-  saveDrafts();
-});
-dom.insertTemplateButton.addEventListener("click", () => {
-  dom.sentenceInput.value = currentLesson().template;
-  saveDrafts();
-});
-dom.insertStoryButton.addEventListener("click", () => {
-  dom.storyInput.value = storyStarter(currentLesson());
-  saveDrafts();
-});
-dom.saveNoteButton.addEventListener("click", saveNote);
-dom.saveStoryButton.addEventListener("click", saveStory);
-dom.resetButton.addEventListener("click", resetProgress);
-[dom.phraseInput, dom.sentenceInput, dom.storyInput, dom.noteInput].forEach((field) => {
-  field.addEventListener("input", saveDrafts);
+elements.saveCardButton.addEventListener("click", saveCard);
+
+elements.copyWordButton.addEventListener("click", () => {
+  const lesson = activeLesson();
+  copyToClipboard(`${lesson.word} - ${lesson.meaning}`);
 });
 
-renderAll();
+elements.copyExampleButton.addEventListener("click", () => {
+  copyToClipboard(activeLesson().examples.map(([sentence]) => sentence).join("\n"));
+});
+
+elements.insertTemplateButton.addEventListener("click", () => {
+  insertText(elements.sentenceInput, activeLesson().sentenceTemplate);
+});
+
+elements.insertStoryButton.addEventListener("click", () => {
+  insertText(elements.storyInput, activeLesson().storyHint);
+});
+
+elements.saveStoryButton.addEventListener("click", saveStory);
+
+elements.saveNoteButton.addEventListener("click", saveNote);
+
+elements.phraseInput.addEventListener("input", () => {
+  const phrase = elements.phraseInput.value.trim().toLowerCase();
+  const lesson = activeLesson();
+  const match = lesson.phrases.find(([item]) => item.toLowerCase().includes(phrase));
+  elements.phraseInput.style.borderColor = phrase && match ? "#2f8f5b" : "";
+});
+
+elements.sentenceInput.addEventListener("input", () => {
+  const lesson = activeLesson();
+  const includesWord = elements.sentenceInput.value
+    .toLowerCase()
+    .includes(lesson.word.toLowerCase());
+  elements.sentenceInput.style.borderColor = includesWord ? "#2f8f5b" : "";
+});
+
+elements.quizOptions.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-answer]");
+  if (!button) return;
+
+  const answer = button.dataset.answer;
+  const correct = answer === activeLesson().quiz.answer;
+  elements.quizOptions.querySelectorAll(".quiz-option").forEach((optionButton) => {
+    optionButton.classList.remove("correct", "wrong");
+  });
+  button.classList.add(correct ? "correct" : "wrong");
+  elements.quizResult.textContent = correct ? "答對了，這張卡可以放進故事。" : "再想一下，看看單字意思。";
+  elements.quizResult.className = correct ? "quiz-result is-correct" : "quiz-result is-wrong";
+});
+
+elements.partBoard.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-index]");
+  if (!button) return;
+
+  state.cardIndex = clampCardIndex(Number(button.dataset.index));
+  saveState();
+  render();
+});
+
+elements.resetButton.addEventListener("click", () => {
+  state.cardIndex = 0;
+  state.completedCards = 0;
+  state.stories = [];
+  state.notes = {};
+  localStorage.removeItem(storageKey);
+  render();
+});
+
+loadState();
+state.cardIndex = clampCardIndex(state.cardIndex);
+state.completedCards = Math.max(0, Math.min(state.completedCards, lessons.length));
+render();
