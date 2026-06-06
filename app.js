@@ -1,5 +1,24 @@
 const STORAGE_KEY = "my-vocabulary-practice-v2";
 
+const storyChapters = {
+  1: {
+    title: "Chapter 1",
+    context: "主角 Mia 想把英文變成每天的小習慣，準備開始一個新的學習計畫。"
+  },
+  2: {
+    title: "Chapter 2",
+    context: "Mia 開始把英文用在生活中：借書、點餐、確認安排，讓單字變成真的行動。"
+  },
+  3: {
+    title: "Chapter 3",
+    context: "Mia 在工作和討論中使用英文，學會說明進度、細節和自己的想法。"
+  },
+  4: {
+    title: "Chapter 4",
+    context: "Mia 整理這幾週的學習，把單字、例句和自己的想法寫成一段完整故事。"
+  }
+};
+
 const lessonRows = [
   [1, "日常學習", "practice", "verb / noun", "練習；實作", "把能力變熟的重複行動。", ["practice English", "練習英文"], ["daily practice", "每日練習"], ["practice more", "多練習"], "I practice English for ten minutes every day.", "每天我練習英文十分鐘。", "I need more practice before the test.", "考試前我需要更多練習。", "I practice ___ every ___.", ["練習", "忘記", "購買"]],
   [1, "日常學習", "improve", "verb", "改善；進步", "讓能力、狀態或結果變得更好。", ["improve my English", "改善我的英文"], ["improve slowly", "慢慢進步"], ["improve a skill", "提升技能"], "I want to improve my English speaking.", "我想改善英文口說。", "My writing improved after daily practice.", "每天練習後，我的寫作進步了。", "I want to improve my ___.", ["改善", "等待", "借用"]],
@@ -81,6 +100,14 @@ const dom = {
   phraseInput: document.querySelector("#phraseInput"),
   exampleStack: document.querySelector("#exampleStack"),
   copyExampleButton: document.querySelector("#copyExampleButton"),
+  chapterLabel: document.querySelector("#chapterLabel"),
+  storyContext: document.querySelector("#storyContext"),
+  storyPrompt: document.querySelector("#storyPrompt"),
+  storyHint: document.querySelector("#storyHint"),
+  storyInput: document.querySelector("#storyInput"),
+  insertStoryButton: document.querySelector("#insertStoryButton"),
+  saveStoryButton: document.querySelector("#saveStoryButton"),
+  storyList: document.querySelector("#storyList"),
   sentenceGuide: document.querySelector("#sentenceGuide"),
   sentenceInput: document.querySelector("#sentenceInput"),
   insertTemplateButton: document.querySelector("#insertTemplateButton"),
@@ -105,6 +132,7 @@ function loadState() {
         streak: Number(saved.streak) || 0,
         lastCompletedDate: saved.lastCompletedDate || "",
         notes: Array.isArray(saved.notes) ? saved.notes : [],
+        stories: Array.isArray(saved.stories) ? saved.stories : [],
         drafts: saved.drafts && typeof saved.drafts === "object" ? saved.drafts : {}
       };
     }
@@ -118,6 +146,7 @@ function loadState() {
     streak: 0,
     lastCompletedDate: "",
     notes: [],
+    stories: [],
     drafts: {}
   };
 }
@@ -164,6 +193,7 @@ function renderLesson() {
 
   renderPhrases();
   renderExamples();
+  renderStoryPrompt();
   renderQuiz();
   loadDrafts();
   renderProgress();
@@ -206,6 +236,70 @@ function renderExamples() {
       const span = document.createElement("span");
       span.textContent = zh;
       card.append(strong, span);
+      return card;
+    })
+  );
+}
+
+function storyStarter(lesson) {
+  const starters = {
+    practice: "Mia practices English before her trip.",
+    improve: "Mia wants to improve her English before she meets new people.",
+    review: "Before bed, Mia reviews the words in her notebook.",
+    understand: "Mia starts to understand simple English signs.",
+    remember: "She remembers one useful word from yesterday.",
+    mistake: "Mia makes a small mistake, but she learns from it.",
+    habit: "Studying one word a day becomes Mia's new habit.",
+    choose: "Mia chooses a topic for her next English note.",
+    prepare: "She prepares three sentences before class.",
+    borrow: "Mia borrows an English book from the library.",
+    return: "The next day, she returns the book with a new idea.",
+    order: "At a cafe, Mia orders tea in English.",
+    confirm: "She confirms the meeting time with a short message.",
+    explain: "Mia explains the new word to a friend.",
+    report: "At work, Mia writes a simple report in English.",
+    meeting: "During the meeting, she uses one sentence confidently.",
+    deadline: "Mia finishes her notes before the deadline.",
+    detail: "She checks every detail before sending the message.",
+    suggest: "Mia suggests a better way to practice.",
+    decision: "She makes a decision to keep learning every day.",
+    progress: "After many small steps, Mia sees her progress.",
+    useful: "Mia writes down the most useful phrase.",
+    confident: "She feels more confident when she speaks slowly.",
+    simple: "Mia keeps her sentence simple and clear.",
+    clear: "Her example makes the idea clear.",
+    example: "Mia gives an example from her own life.",
+    connect: "She connects the new word with a real memory.",
+    summary: "Mia writes a short summary of her learning journey."
+  };
+  return starters[lesson.word] || `Mia uses "${lesson.word}" in her story.`;
+}
+
+function renderStoryPrompt() {
+  const lesson = currentLesson();
+  const chapter = storyChapters[lesson.week];
+  dom.chapterLabel.textContent = chapter.title;
+  dom.storyContext.textContent = chapter.context;
+  dom.storyPrompt.textContent = `今日任務：用 "${lesson.word}" 推進故事`;
+  dom.storyHint.textContent = storyStarter(lesson);
+}
+
+function renderStoryList() {
+  const stories = [...state.stories].sort((a, b) => a.day - b.day);
+  if (!stories.length) {
+    dom.storyList.innerHTML = '<p class="empty-notes">還沒有故事句。每天用今日單字寫一句，這裡會慢慢累積成一段故事。</p>';
+    return;
+  }
+
+  dom.storyList.replaceChildren(
+    ...stories.map((story) => {
+      const card = document.createElement("div");
+      card.className = "story-card";
+      const label = document.createElement("strong");
+      label.textContent = `Day ${story.day + 1}: ${story.word}`;
+      const text = document.createElement("p");
+      text.textContent = story.text;
+      card.append(label, text);
       return card;
     })
   );
@@ -306,6 +400,7 @@ function saveDrafts() {
   state.drafts[selectedDay] = {
     phrase: dom.phraseInput.value,
     sentence: dom.sentenceInput.value,
+    story: dom.storyInput.value,
     note: dom.noteInput.value
   };
   saveState();
@@ -315,6 +410,7 @@ function loadDrafts() {
   const draft = state.drafts[selectedDay] || {};
   dom.phraseInput.value = draft.phrase || "";
   dom.sentenceInput.value = draft.sentence || "";
+  dom.storyInput.value = draft.story || "";
   dom.noteInput.value = draft.note || "";
 }
 
@@ -322,6 +418,7 @@ function renderAll() {
   renderLesson();
   renderBoard();
   renderNotes();
+  renderStoryList();
 }
 
 function saveNote() {
@@ -331,6 +428,7 @@ function saveNote() {
     `單字：${lesson.word}（${lesson.meaning}）`,
     dom.phraseInput.value.trim() ? `搭配短句：\n${dom.phraseInput.value.trim()}` : "",
     dom.sentenceInput.value.trim() ? `延伸造句：\n${dom.sentenceInput.value.trim()}` : "",
+    dom.storyInput.value.trim() ? `故事句：\n${dom.storyInput.value.trim()}` : "",
     dom.noteInput.value.trim() ? `筆記：\n${dom.noteInput.value.trim()}` : ""
   ].filter(Boolean);
 
@@ -345,7 +443,32 @@ function saveNote() {
   renderNotes();
 }
 
+function saveStory() {
+  saveDrafts();
+  const lesson = currentLesson();
+  const text = dom.storyInput.value.trim() || storyStarter(lesson);
+  const existingIndex = state.stories.findIndex((story) => story.day === selectedDay);
+  const story = {
+    date: todayKey(),
+    day: selectedDay,
+    word: lesson.word,
+    text
+  };
+
+  if (existingIndex >= 0) {
+    state.stories[existingIndex] = story;
+  } else {
+    state.stories.push(story);
+  }
+  state.stories = state.stories
+    .sort((a, b) => a.day - b.day)
+    .slice(0, lessons.length);
+  saveState();
+  renderStoryList();
+}
+
 function completeDay() {
+  saveStory();
   saveNote();
   const today = todayKey();
   if (state.lastCompletedDate !== today) {
@@ -380,9 +503,14 @@ dom.insertTemplateButton.addEventListener("click", () => {
   dom.sentenceInput.value = currentLesson().template;
   saveDrafts();
 });
+dom.insertStoryButton.addEventListener("click", () => {
+  dom.storyInput.value = storyStarter(currentLesson());
+  saveDrafts();
+});
 dom.saveNoteButton.addEventListener("click", saveNote);
+dom.saveStoryButton.addEventListener("click", saveStory);
 dom.resetButton.addEventListener("click", resetProgress);
-[dom.phraseInput, dom.sentenceInput, dom.noteInput].forEach((field) => {
+[dom.phraseInput, dom.sentenceInput, dom.storyInput, dom.noteInput].forEach((field) => {
   field.addEventListener("input", saveDrafts);
 });
 

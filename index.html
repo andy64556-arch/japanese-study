@@ -83,6 +83,39 @@
           </article>
         </section>
 
+        <section class="story-section" aria-labelledby="storyTitle">
+          <article class="panel story-panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Story Builder</p>
+                <h2 id="storyTitle">我的單字故事</h2>
+              </div>
+              <span class="mini-badge" id="chapterLabel">Chapter 1</span>
+            </div>
+            <p class="support-text" id="storyContext">用每天的單字，慢慢寫出一段自己的英文故事。</p>
+            <div class="story-task">
+              <strong id="storyPrompt">今日任務</strong>
+              <span id="storyHint">用今日單字寫一句故事。</span>
+            </div>
+            <label class="field-label" for="storyInput">今日故事句</label>
+            <textarea id="storyInput" class="text-area" rows="4" placeholder="例如：Mia practices English before her trip."></textarea>
+            <div class="split-actions">
+              <button class="ghost-action" id="insertStoryButton" type="button">使用故事提示</button>
+              <button class="primary-action" id="saveStoryButton" type="button">儲存故事句</button>
+            </div>
+          </article>
+
+          <article class="panel story-panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Story So Far</p>
+                <h2>目前累積的故事</h2>
+              </div>
+            </div>
+            <div class="story-list" id="storyList"></div>
+          </article>
+        </section>
+
         <section class="review-grid" aria-label="造句與複習">
           <article class="panel sentence-builder">
             <div class="panel-heading compact">

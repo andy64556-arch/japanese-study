@@ -309,6 +309,13 @@ button {
   margin-bottom: 28px;
 }
 
+.story-section {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(320px, 1.05fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
 .panel {
   min-width: 0;
   padding: 20px;
@@ -354,7 +361,9 @@ button {
 
 .example-card,
 .phrase-card,
-.info-row {
+.info-row,
+.story-task,
+.story-card {
   padding: 12px;
   border-radius: 8px;
   background: var(--soft);
@@ -362,7 +371,9 @@ button {
 
 .example-card strong,
 .phrase-card strong,
-.info-row strong {
+.info-row strong,
+.story-task strong,
+.story-card strong {
   display: block;
   margin-bottom: 4px;
   overflow-wrap: anywhere;
@@ -371,9 +382,27 @@ button {
 
 .example-card span,
 .phrase-card span,
-.info-row span {
+.info-row span,
+.story-task span {
   color: var(--muted);
   font-size: 0.92rem;
+}
+
+.story-list {
+  display: grid;
+  gap: 10px;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.story-card {
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.story-card p {
+  margin: 0;
+  line-height: 1.55;
 }
 
 .phrase-card {
@@ -608,6 +637,7 @@ button {
   }
 
   .practice-grid,
+  .story-section,
   .review-grid {
     grid-template-columns: repeat(2, minmax(260px, 1fr));
   }
@@ -635,6 +665,7 @@ button {
 
   .hero-panel,
   .practice-grid,
+  .story-section,
   .review-grid,
   .week-board {
     grid-template-columns: 1fr;
