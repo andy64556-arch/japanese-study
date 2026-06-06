@@ -68,7 +68,7 @@ button:disabled {
 }
 
 .eyebrow,
-.week-tag,
+.part-tag,
 .field-label,
 .mini-badge,
 .word-board span {
@@ -140,7 +140,7 @@ h2 {
   line-height: 1.03;
 }
 
-.hero-copy p:not(.week-tag) {
+.hero-copy p:not(.part-tag) {
   max-width: 620px;
   margin-bottom: 24px;
   color: var(--muted);

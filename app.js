@@ -81,14 +81,14 @@ const state = loadState();
 let selectedDay = Math.min(state.selectedDay ?? state.completedDays, lessons.length - 1);
 
 const dom = {
-  todayLabel: document.querySelector("#todayLabel"),
-  streakLabel: document.querySelector("#streakLabel"),
-  weekTag: document.querySelector("#weekTag"),
+  collectionLabel: document.querySelector("#collectionLabel"),
+  storyCountLabel: document.querySelector("#storyCountLabel"),
+  partTag: document.querySelector("#partTag"),
   lessonTitle: document.querySelector("#lessonTitle"),
   lessonSummary: document.querySelector("#lessonSummary"),
   featuredWord: document.querySelector("#featuredWord"),
   featuredMeaning: document.querySelector("#featuredMeaning"),
-  completeDayButton: document.querySelector("#completeDayButton"),
+  saveCardButton: document.querySelector("#saveCardButton"),
   copyWordButton: document.querySelector("#copyWordButton"),
   resetButton: document.querySelector("#resetButton"),
   wordTitle: document.querySelector("#wordTitle"),
@@ -100,7 +100,7 @@ const dom = {
   phraseInput: document.querySelector("#phraseInput"),
   exampleStack: document.querySelector("#exampleStack"),
   copyExampleButton: document.querySelector("#copyExampleButton"),
-  chapterLabel: document.querySelector("#chapterLabel"),
+  storyPartLabel: document.querySelector("#storyPartLabel"),
   storyContext: document.querySelector("#storyContext"),
   storyPrompt: document.querySelector("#storyPrompt"),
   storyHint: document.querySelector("#storyHint"),
@@ -166,9 +166,9 @@ function currentLesson() {
 
 function renderLesson() {
   const lesson = currentLesson();
-  dom.todayLabel.textContent = `已收集 ${Math.min(state.completedDays, lessons.length)} 個`;
-  dom.streakLabel.textContent = `故事句 ${state.stories.length} 句`;
-  dom.weekTag.textContent = `Part ${lesson.week}`;
+  dom.collectionLabel.textContent = `已收集 ${Math.min(state.completedDays, lessons.length)} 個`;
+  dom.storyCountLabel.textContent = `故事句 ${state.stories.length} 句`;
+  dom.partTag.textContent = `Part ${lesson.week}`;
   dom.lessonTitle.textContent = lesson.word;
   dom.lessonSummary.textContent = lesson.summary;
   dom.featuredWord.textContent = lesson.word;
@@ -271,7 +271,7 @@ function storyStarter(lesson) {
 function renderStoryPrompt() {
   const lesson = currentLesson();
   const chapter = storyChapters[lesson.week];
-  dom.chapterLabel.textContent = chapter.title;
+  dom.storyPartLabel.textContent = chapter.title;
   dom.storyContext.textContent = chapter.context;
   dom.storyPrompt.textContent = `故事任務：用 "${lesson.word}" 推進故事`;
   dom.storyHint.textContent = storyStarter(lesson);
@@ -323,7 +323,7 @@ function renderProgress() {
   const done = Math.min(state.completedDays, lessons.length);
   dom.progressText.textContent = `${done} / ${lessons.length}`;
   dom.progressBar.style.width = `${(done / lessons.length) * 100}%`;
-  dom.completeDayButton.textContent = selectedDay < state.completedDays ? "已收集" : "儲存這張卡";
+  dom.saveCardButton.textContent = selectedDay < state.completedDays ? "已收集" : "儲存這張卡";
 }
 
 function renderBoard() {
@@ -478,7 +478,7 @@ function resetProgress() {
   renderAll();
 }
 
-dom.completeDayButton.addEventListener("click", completeDay);
+dom.saveCardButton.addEventListener("click", completeDay);
 dom.copyWordButton.addEventListener("click", () => {
   dom.sentenceInput.value = currentLesson().word;
   saveDrafts();
