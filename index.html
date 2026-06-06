@@ -3,37 +3,37 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>我的英文單字練習室</title>
+    <title>我的英文單字故事本</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <div class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Daily Vocabulary Practice</p>
-          <h1>我的英文單字練習室</h1>
+          <p class="eyebrow">Vocabulary Story Builder</p>
+          <h1>我的英文單字故事本</h1>
         </div>
         <div class="status-pill" aria-live="polite">
-          <span id="todayLabel">第 1 天</span>
-          <strong id="streakLabel">連續 0 天</strong>
+          <span id="todayLabel">已收集 0 個</span>
+          <strong id="streakLabel">故事句 0 句</strong>
         </div>
       </header>
 
       <main>
         <section class="hero-panel" aria-labelledby="lessonTitle">
           <div class="hero-copy">
-            <p class="week-tag" id="weekTag">Week 1</p>
+            <p class="week-tag" id="weekTag">Part 1</p>
             <h2 id="lessonTitle">用一個單字寫出自己的句子</h2>
-            <p id="lessonSummary">每天認識一個核心單字，學會意思、常見搭配、例句，最後寫出自己的延伸句。</p>
+            <p id="lessonSummary">收集一個核心單字，學會意思、常見搭配、例句，最後寫出自己的延伸句。</p>
             <div class="hero-actions">
-              <button class="primary-action" id="completeDayButton" type="button">完成今天</button>
-              <button class="ghost-action" id="copyWordButton" type="button">帶入今日單字</button>
+              <button class="primary-action" id="completeDayButton" type="button">儲存這張卡</button>
+              <button class="ghost-action" id="copyWordButton" type="button">帶入這個單字</button>
               <button class="ghost-action" id="resetButton" type="button">重設進度</button>
             </div>
           </div>
           <div class="study-scene" aria-label="英文單字學習插圖">
             <div class="word-board">
-              <span>Today's word</span>
+              <span>Word card</span>
               <strong id="featuredWord">practice</strong>
               <small id="featuredMeaning">練習；實作</small>
             </div>
@@ -45,7 +45,7 @@
           </div>
         </section>
 
-        <section class="practice-grid" aria-label="今日單字練習">
+        <section class="practice-grid" aria-label="單字練習">
           <article class="panel word-panel">
             <div class="panel-heading compact">
               <div>
@@ -90,14 +90,14 @@
                 <p class="eyebrow">Story Builder</p>
                 <h2 id="storyTitle">我的單字故事</h2>
               </div>
-              <span class="mini-badge" id="chapterLabel">Chapter 1</span>
+              <span class="mini-badge" id="chapterLabel">Part 1</span>
             </div>
-            <p class="support-text" id="storyContext">用每天的單字，慢慢寫出一段自己的英文故事。</p>
+            <p class="support-text" id="storyContext">用收集到的單字，慢慢寫出一段自己的英文故事。</p>
             <div class="story-task">
-              <strong id="storyPrompt">今日任務</strong>
-              <span id="storyHint">用今日單字寫一句故事。</span>
+              <strong id="storyPrompt">故事任務</strong>
+              <span id="storyHint">用這個單字寫一句故事。</span>
             </div>
-            <label class="field-label" for="storyInput">今日故事句</label>
+            <label class="field-label" for="storyInput">故事句</label>
             <textarea id="storyInput" class="text-area" rows="4" placeholder="例如：Mia practices English before her trip."></textarea>
             <div class="split-actions">
               <button class="ghost-action" id="insertStoryButton" type="button">使用故事提示</button>
@@ -124,7 +124,7 @@
                 <h2>延伸造句</h2>
               </div>
             </div>
-            <p class="support-text" id="sentenceGuide">把今日單字放進你自己的生活、工作或學習情境。</p>
+            <p class="support-text" id="sentenceGuide">把這個單字放進你自己的生活、工作或學習情境。</p>
             <label class="field-label" for="sentenceInput">自己的英文句子</label>
             <textarea id="sentenceInput" class="text-area large" rows="6" placeholder="例如：I need more practice before the test."></textarea>
             <div class="split-actions">
@@ -140,7 +140,7 @@
                 <h2>小測驗</h2>
               </div>
             </div>
-            <p class="quiz-question" id="quizQuestion">今日單字最接近哪個意思？</p>
+            <p class="quiz-question" id="quizQuestion">這個單字最接近哪個意思？</p>
             <div class="quiz-options" id="quizOptions"></div>
             <p class="quiz-result" id="quizResult" aria-live="polite"></p>
           </article>
@@ -149,10 +149,10 @@
             <div class="panel-heading compact">
               <div>
                 <p class="eyebrow">Notes</p>
-                <h2>今日筆記</h2>
+                <h2>筆記</h2>
               </div>
             </div>
-            <label class="field-label" for="noteInput">今天想記住的用法</label>
+            <label class="field-label" for="noteInput">想記住的用法</label>
             <textarea id="noteInput" class="text-area large" rows="6" placeholder="例如：practice 可以當動詞，也可以當名詞。"></textarea>
           </article>
         </section>
@@ -161,7 +161,7 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Course</p>
-              <h2 id="courseTitle">4 週單字延伸課表</h2>
+              <h2 id="courseTitle">單字故事路線</h2>
             </div>
             <div class="progress-meter" aria-label="課程進度">
               <span id="progressText">0 / 28</span>
