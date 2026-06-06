@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>日文 20 分鐘練習</title>
+    <title>我的英文練習室</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <div class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">動漫・日劇日文</p>
-          <h1>每天 20 分鐘</h1>
+          <p class="eyebrow">Daily English Practice</p>
+          <h1>我的英文練習室</h1>
         </div>
         <div class="status-pill" aria-live="polite">
           <span id="todayLabel">第 1 天</span>
@@ -20,158 +20,166 @@
       </header>
 
       <main>
-        <section class="hero-panel" aria-labelledby="today-title">
+        <section class="hero-panel" aria-labelledby="lessonTitle">
           <div class="hero-copy">
             <p class="week-tag" id="weekTag">Week 1</p>
-            <h2 id="today-title">です・ます與名詞句</h2>
-            <p id="lessonSummary">用最常出現在台詞裡的禮貌句，建立第一批可聽懂、可讀懂的句子。</p>
+            <h2 id="lessonTitle">建立每天開口的習慣</h2>
+            <p id="lessonSummary">今天用一個簡單句型，完成朗讀、造句、跟讀和短筆記。</p>
             <div class="hero-actions">
               <button class="primary-action" id="completeDayButton" type="button">完成今天</button>
-              <button class="voice-action" id="playFeaturedButton" type="button">播放台詞</button>
+              <button class="voice-action" id="playFeaturedButton" type="button">播放例句</button>
               <button class="ghost-action" id="resetButton" type="button">重設進度</button>
             </div>
           </div>
-          <div class="subtitle-frame" aria-label="台詞練習畫面">
-            <div class="scene-sky"></div>
-            <div class="scene-buildings">
-              <span></span><span></span><span></span><span></span>
+          <div class="study-scene" aria-label="英文學習插圖">
+            <div class="window-view">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
-            <div class="scene-platform"></div>
-            <div class="subtitle-card">
-              <span>今日台詞</span>
-              <strong id="featuredLine">これは私の本です。</strong>
-              <small id="featuredMeaning">這是我的書。</small>
+            <div class="whiteboard">
+              <span>Today's line</span>
+              <strong id="featuredLine">I am going to practice English tonight.</strong>
+              <small id="featuredMeaning">我今晚要練習英文。</small>
+            </div>
+            <div class="desk">
+              <div class="book"></div>
+              <div class="cards"></div>
+              <div class="cup"></div>
             </div>
           </div>
         </section>
 
-        <section class="study-grid" aria-label="今日學習工具">
+        <section class="practice-grid" aria-label="今日練習">
           <article class="panel timer-panel">
             <div class="panel-heading">
               <div>
-                <p class="eyebrow">今日流程</p>
-                <h2>20:00</h2>
+                <p class="eyebrow">Focus Timer</p>
+                <h2>20 分鐘流程</h2>
               </div>
               <div class="timer-readout" id="timerReadout">20:00</div>
             </div>
             <div class="segment-list" id="segmentList"></div>
             <div class="timer-controls">
-              <button class="icon-button wide" id="startTimerButton" type="button" aria-label="開始或暫停計時">開始</button>
-              <button class="icon-button" id="nextSegmentButton" type="button" aria-label="下一段">→</button>
-              <button class="icon-button" id="resetTimerButton" type="button" aria-label="重設計時">↺</button>
+              <button class="icon-button wide" id="startTimerButton" type="button">開始</button>
+              <button class="icon-button" id="nextSegmentButton" type="button" aria-label="下一段">下一段</button>
+              <button class="icon-button" id="resetTimerButton" type="button" aria-label="重設計時">重設</button>
             </div>
           </article>
 
           <article class="panel">
             <div class="panel-heading compact">
               <div>
-                <p class="eyebrow">文法</p>
-                <h2 id="grammarTitle">A は B です</h2>
+                <p class="eyebrow">Pattern</p>
+                <h2 id="patternTitle">I am going to...</h2>
               </div>
-              <span class="mini-badge" id="grammarLevel">N5</span>
+              <span class="mini-badge" id="lessonLevel">A1</span>
             </div>
-            <p class="grammar-note" id="grammarNote">用來說明「A 是 B」。動漫和日劇裡常見於自我介紹、確認身分和描述物品。</p>
+            <p class="support-text" id="patternNote">用來說明接下來的計畫。</p>
             <div class="example-stack" id="exampleStack"></div>
-            <div class="grammar-practice">
-              <label class="field-label" for="grammarPracticeInput">照這個文法打一個句子</label>
-              <textarea id="grammarPracticeInput" class="text-area grammar-area" rows="4" placeholder="先照例句換一兩個字就好"></textarea>
-              <div class="split-actions">
-                <button class="voice-secondary" id="playGrammarPracticeButton" type="button">播放練習句</button>
-                <button class="ghost-action" id="copyExampleButton" type="button">套用範例</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="panel">
-            <div class="panel-heading compact">
-              <div>
-                <p class="eyebrow">聽辨</p>
-                <h2>字幕聽辨</h2>
-              </div>
-            </div>
-            <label class="field-label" for="sourceInput">線上片段來源</label>
-            <input id="sourceInput" class="text-field" type="text" placeholder="會自動填入 Tatoeba 句子編號">
-            <div class="online-clip" aria-live="polite">
-              <div>
-                <span class="mini-badge">Online</span>
-                <strong id="clipHint">隨機日文短句</strong>
-                <p id="clipAnswer" hidden></p>
-              </div>
-              <audio id="clipAudio" preload="none"></audio>
-            </div>
-            <div class="split-actions listening-actions">
-              <button class="secondary-action voice-secondary" id="playShadowButton" type="button">播放片段</button>
-              <button class="voice-secondary" id="randomClipButton" type="button">換一段</button>
-            </div>
-            <button class="ghost-action reveal-action" id="revealClipButton" type="button">顯示答案</button>
-            <p class="clip-source" id="clipSource"></p>
-            <label class="field-label" for="shadowInput">聽到的單字或短句</label>
-            <textarea id="shadowInput" class="text-area" rows="5" placeholder="例：これ、私、本、です / 大丈夫ですか"></textarea>
-          </article>
-
-          <article class="panel">
-            <div class="panel-heading compact">
-              <div>
-                <p class="eyebrow">輸出</p>
-                <h2>今天最常用的一句</h2>
-              </div>
-            </div>
-            <label class="field-label" for="dailySentenceInput">自己造一句</label>
-            <textarea id="dailySentenceInput" class="text-area large" rows="6" placeholder="例：これは私のかばんです。"></textarea>
+            <label class="field-label" for="sentenceInput">用今天句型寫 1 句自己的英文</label>
+            <textarea id="sentenceInput" class="text-area" rows="4" placeholder="例如：I am going to read for ten minutes."></textarea>
             <div class="split-actions">
-              <button class="secondary-action" id="saveNoteButton" type="button">儲存筆記</button>
-              <button class="voice-secondary" id="playSentenceButton" type="button">播放造句</button>
+              <button class="voice-secondary" id="playSentenceButton" type="button">朗讀我的句子</button>
+              <button class="ghost-action" id="copyExampleButton" type="button">帶入例句</button>
             </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Vocabulary</p>
+                <h2>今日單字</h2>
+              </div>
+            </div>
+            <div class="vocab-list" id="vocabList"></div>
+            <button class="secondary-action" id="shuffleVocabButton" type="button">換一張單字卡</button>
+            <label class="field-label" for="vocabInput">用 2 個單字寫短句</label>
+            <textarea id="vocabInput" class="text-area" rows="4" placeholder="例如：I want to improve my pronunciation."></textarea>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Shadowing</p>
+                <h2>聽一句，跟讀三次</h2>
+              </div>
+            </div>
+            <div class="listening-card">
+              <span class="mini-badge">Listen</span>
+              <strong id="shadowLine">Could you say that again?</strong>
+              <p id="shadowMeaning">可以請你再說一次嗎？</p>
+            </div>
+            <div class="split-actions">
+              <button class="voice-secondary" id="playShadowButton" type="button">播放跟讀句</button>
+              <button class="ghost-action" id="randomShadowButton" type="button">換一句</button>
+            </div>
+            <label class="field-label" for="shadowInput">寫下你聽到的內容或自己的改寫</label>
+            <textarea id="shadowInput" class="text-area" rows="4" placeholder="先聽，再跟讀，最後寫下來。"></textarea>
           </article>
         </section>
 
-        <section class="voice-panel" aria-labelledby="voice-title">
+        <section class="review-grid" aria-label="測驗與筆記">
+          <article class="panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Quick Check</p>
+                <h2>小測驗</h2>
+              </div>
+            </div>
+            <p class="quiz-question" id="quizQuestion">今天句型適合用在哪裡？</p>
+            <div class="quiz-options" id="quizOptions"></div>
+            <p class="quiz-result" id="quizResult" aria-live="polite"></p>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Speaking</p>
+                <h2>口說記錄</h2>
+              </div>
+            </div>
+            <p class="support-text" id="speechStatus">可使用瀏覽器語音辨識，也可以直接手動輸入。</p>
+            <button class="secondary-action" id="recordButton" type="button">開始錄音</button>
+            <label class="field-label" for="speakingInput">今天開口說了什麼？</label>
+            <textarea id="speakingInput" class="text-area" rows="4" placeholder="記下自己剛才說出的英文，或修改成更自然的說法。"></textarea>
+          </article>
+
+          <article class="panel notes-panel">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">Notes</p>
+                <h2>今日筆記</h2>
+              </div>
+            </div>
+            <label class="field-label" for="noteInput">今天學到、卡住或想複習的地方</label>
+            <textarea id="noteInput" class="text-area large" rows="6" placeholder="例如：still working on it 可以用在工作進度。"></textarea>
+            <button class="primary-action full-width" id="saveNoteButton" type="button">儲存筆記</button>
+          </article>
+        </section>
+
+        <section class="voice-panel" aria-labelledby="voiceTitle">
           <div>
-            <p class="eyebrow">語音</p>
-            <h2 id="voice-title">日文朗讀</h2>
-            <p id="voiceStatus">使用瀏覽器內建語音，優先選擇日文聲音。</p>
+            <p class="eyebrow">Voice</p>
+            <h2 id="voiceTitle">播放設定</h2>
+            <p id="voiceStatus">正在讀取瀏覽器可用的英文語音。</p>
           </div>
           <div class="voice-controls">
-            <label for="voiceSelect">聲音</label>
+            <label for="voiceSelect">語音</label>
             <select id="voiceSelect"></select>
-            <label for="rateControl">語速 <span id="rateLabel">0.85x</span></label>
-            <input id="rateControl" type="range" min="0.6" max="1.1" step="0.05" value="0.85">
-            <button class="ghost-action" id="stopVoiceButton" type="button">停止</button>
+            <label for="rateControl">速度 <span id="rateLabel">0.85x</span></label>
+            <input id="rateControl" type="range" min="0.65" max="1.2" step="0.05" value="0.85">
+            <button class="ghost-action" id="stopVoiceButton" type="button">停止播放</button>
           </div>
         </section>
 
-        <section class="typing-panel" aria-labelledby="typing-title">
-          <div class="typing-intro">
-            <p class="eyebrow">打字</p>
-            <h2 id="typing-title">羅馬拼音打日文</h2>
-            <p>用英文鍵盤輸入羅馬拼音，日文鍵盤會自動變成假名；按空白鍵可選漢字，Enter 確認。助詞 は、へ、を 通常打 ha、he、wo。</p>
-          </div>
-          <div class="typing-tool">
-            <label class="field-label" for="romajiInput">輸入羅馬拼音</label>
-            <input id="romajiInput" class="text-field" type="text" placeholder="例：watashi ha gakusei desu">
-            <div class="kana-preview" aria-live="polite">
-              <span>平假名預覽</span>
-              <strong id="kanaPreview">わたし は がくせい です</strong>
-            </div>
-            <button class="voice-secondary" id="copyKanaButton" type="button">套到文法練習</button>
-          </div>
-          <div class="typing-rules" aria-label="羅馬拼音規則">
-            <div><strong>shi</strong><span>し</span></div>
-            <div><strong>chi</strong><span>ち</span></div>
-            <div><strong>tsu</strong><span>つ</span></div>
-            <div><strong>gakkou</strong><span>がっこう</span></div>
-            <div><strong>konnichiha</strong><span>こんにちは</span></div>
-            <div><strong>wo</strong><span>を</span></div>
-          </div>
-        </section>
-
-        <section class="progress-section" aria-labelledby="course-title">
+        <section class="progress-section" aria-labelledby="courseTitle">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">四週課表</p>
-              <h2 id="course-title">從字幕高頻句型開始</h2>
+              <p class="eyebrow">Course</p>
+              <h2 id="courseTitle">4 週英文自學路線</h2>
             </div>
-            <div class="progress-meter" aria-label="四週進度">
+            <div class="progress-meter" aria-label="課程進度">
               <span id="progressText">0 / 28</span>
               <div><i id="progressBar"></i></div>
             </div>
@@ -179,21 +187,12 @@
           <div class="week-board" id="weekBoard"></div>
         </section>
 
-        <section class="review-section" aria-labelledby="review-title">
+        <section class="saved-section" aria-labelledby="savedTitle">
           <article class="panel">
             <div class="panel-heading compact">
               <div>
-                <p class="eyebrow">週末檢查</p>
-                <h2 id="review-title">15 分鐘小測</h2>
-              </div>
-            </div>
-            <div class="checklist" id="weeklyChecklist"></div>
-          </article>
-          <article class="panel notes-panel">
-            <div class="panel-heading compact">
-              <div>
-                <p class="eyebrow">學習紀錄</p>
-                <h2>最近筆記</h2>
+                <p class="eyebrow">Saved</p>
+                <h2 id="savedTitle">已儲存筆記</h2>
               </div>
             </div>
             <div class="notes-list" id="notesList"></div>
