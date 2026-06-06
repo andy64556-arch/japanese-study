@@ -1,74 +1,67 @@
-const STORAGE_KEY = "my-english-practice-v1";
+const STORAGE_KEY = "my-vocabulary-practice-v2";
 
 const segments = [
-  { label: "暖身", minutes: 4, detail: "播放例句，跟著唸 3 次。" },
-  { label: "句型", minutes: 6, detail: "理解句型，寫出自己的句子。" },
-  { label: "跟讀", minutes: 6, detail: "慢速聽、跟讀、記下聽到的內容。" },
-  { label: "筆記", minutes: 4, detail: "整理今天學到的一句話。" }
+  { label: "認識單字", minutes: 5, detail: "看詞性、中文意思和使用情境。" },
+  { label: "搭配用法", minutes: 5, detail: "記住 2 到 3 個常見搭配。" },
+  { label: "例句拆解", minutes: 5, detail: "觀察單字在句子裡的位置。" },
+  { label: "延伸造句", minutes: 5, detail: "用今日單字寫自己的句子。" }
 ];
 
-const shadowBank = [
-  ["Could you say that again?", "可以請你再說一次嗎？"],
-  ["I am still working on it.", "我還在處理這件事。"],
-  ["That sounds like a good idea.", "那聽起來是個好主意。"],
-  ["I need a little more time.", "我需要再多一點時間。"],
-  ["Let me check and get back to you.", "我確認後再回覆你。"],
-  ["I usually practice English after dinner.", "我通常晚餐後練習英文。"],
-  ["I am trying to speak more clearly.", "我正在試著說得更清楚。"],
-  ["What do you mean by that?", "你那樣說是什麼意思？"],
-  ["I agree with you on this point.", "這一點我同意你。"],
-  ["Could we talk about it tomorrow?", "我們可以明天再談這件事嗎？"]
-].map(([line, meaning]) => ({ line, meaning }));
-
 const lessonRows = [
-  [1, "每日基本句", "建立今天的計畫", "I am going to...", "I am going to practice English tonight.", "我今晚要練習英文。", "用來說明接下來的計畫。", ["practice", "練習"], ["tonight", "今晚"], ["plan", "計畫"]],
-  [1, "每日基本句", "說出日常習慣", "I usually...", "I usually read English after breakfast.", "我通常早餐後讀英文。", "usually 放在一般動詞前，用來描述常態。", ["usually", "通常"], ["breakfast", "早餐"], ["habit", "習慣"]],
-  [1, "每日基本句", "描述正在做的事", "I am ...ing", "I am learning a new phrase.", "我正在學一個新片語。", "be 動詞加動詞 ing，用來說現在正在進行的事。", ["learning", "正在學"], ["phrase", "片語"], ["right now", "現在"]],
-  [1, "每日基本句", "說出喜歡的理由", "I like ... because...", "I like this podcast because it is easy to follow.", "我喜歡這個 podcast，因為它很容易跟上。", "because 後面接原因，讓句子更完整。", ["because", "因為"], ["podcast", "播客"], ["easy to follow", "容易跟上"]],
-  [1, "每日基本句", "提出簡單問題", "Do you...?", "Do you have time this afternoon?", "你今天下午有時間嗎？", "Do you 加原形動詞，用來問對方的習慣、需求或狀態。", ["time", "時間"], ["afternoon", "下午"], ["available", "有空的"]],
-  [1, "每日基本句", "說能力", "I can...", "I can understand simple English sentences.", "我可以理解簡單英文句子。", "can 後面接原形動詞，不需要加 to。", ["understand", "理解"], ["simple", "簡單的"], ["sentence", "句子"]],
-  [1, "每日基本句", "週末複習", "This week, I...", "This week, I practiced English every day.", "這週我每天都練習英文。", "把本週學過的句型混合起來，說出自己的成果。", ["every day", "每天"], ["improve", "進步"], ["review", "複習"]],
-  [2, "生活與旅行", "問地點", "Where is...?", "Where is the nearest train station?", "最近的火車站在哪裡？", "Where is 用來詢問位置。", ["nearest", "最近的"], ["station", "車站"], ["direction", "方向"]],
-  [2, "生活與旅行", "禮貌點餐", "I would like...", "I would like a cup of tea, please.", "我想要一杯茶，謝謝。", "I would like 比 I want 更禮貌。", ["would like", "想要"], ["cup", "杯"], ["please", "請"]],
-  [2, "生活與旅行", "詢問價格", "How much is...?", "How much is this bottle of water?", "這瓶水多少錢？", "How much is this 用來問單一物品價格。", ["bottle", "瓶"], ["price", "價格"], ["cash", "現金"]],
-  [2, "生活與旅行", "問時間", "What time does...?", "What time does the bus leave?", "公車幾點離開？", "What time does 後面接主詞與原形動詞。", ["leave", "離開"], ["arrive", "抵達"], ["schedule", "時刻表"]],
-  [2, "生活與旅行", "請人幫忙", "Could you...?", "Could you help me take a photo?", "可以請你幫我拍張照片嗎？", "Could you 是禮貌請求，比 Can you 更柔和。", ["help", "幫忙"], ["photo", "照片"], ["again", "再次"]],
-  [2, "生活與旅行", "說明問題", "There is a problem with...", "There is a problem with my reservation.", "我的預訂有問題。", "There is a problem with 後面接出問題的東西。", ["problem", "問題"], ["reservation", "預訂"], ["confirm", "確認"]],
-  [2, "生活與旅行", "生活情境複習", "Excuse me, could you...?", "Excuse me, could you tell me where the station is?", "不好意思，可以告訴我車站在哪裡嗎？", "先用 Excuse me 開頭，再提出請求。", ["excuse me", "不好意思"], ["tell me", "告訴我"], ["station", "車站"]],
-  [3, "工作與討論", "描述進度", "I am working on...", "I am working on the report now.", "我現在正在處理報告。", "work on 表示正在做、處理或投入某件事。", ["report", "報告"], ["task", "任務"], ["deadline", "期限"]],
-  [3, "工作與討論", "表達想法", "I think...", "I think we should start with the main idea.", "我覺得我們應該從主要想法開始。", "I think 用來提出看法，should 表示建議。", ["main idea", "主要想法"], ["start with", "從...開始"], ["should", "應該"]],
-  [3, "工作與討論", "不同意但保持禮貌", "I see your point, but...", "I see your point, but I have a different idea.", "我懂你的意思，但我有不同想法。", "先承認對方觀點，再提出不同意見。", ["point", "觀點"], ["different", "不同的"], ["idea", "想法"]],
-  [3, "工作與討論", "確認資訊", "Could you confirm...?", "Could you confirm the meeting time?", "可以請你確認會議時間嗎？", "confirm 用來請對方確認資訊、細節或安排。", ["confirm", "確認"], ["meeting", "會議"], ["detail", "細節"]],
-  [3, "工作與討論", "提出下一步", "Let's...", "Let's review the notes before tomorrow.", "我們明天前先複習筆記吧。", "Let's 後面接原形動詞，用來提出一起做的事。", ["review", "複習"], ["notes", "筆記"], ["before", "在...之前"]],
-  [3, "工作與討論", "說出卡住的地方", "I am not sure how to...", "I am not sure how to explain this clearly.", "我不確定怎麼把這件事說清楚。", "how to 後面接原形動詞，表示如何做某事。", ["explain", "解釋"], ["clearly", "清楚地"], ["stuck", "卡住的"]],
-  [3, "工作與討論", "工作情境複習", "I think..., so let's...", "I think we need more examples, so let's add two more.", "我覺得我們需要更多例子，所以再加兩個吧。", "so 用來連接原因和下一步行動。", ["example", "例子"], ["add", "加入"], ["more", "更多"]],
-  [4, "整理與輸出", "回顧昨天", "I learned...", "I learned three useful phrases yesterday.", "我昨天學了三個實用片語。", "learned 是過去式，用來說已經完成的學習。", ["learned", "學到"], ["useful", "實用的"], ["yesterday", "昨天"]],
-  [4, "整理與輸出", "解釋選擇", "I chose it because...", "I chose this topic because it is useful for work.", "我選這個主題，因為它對工作有用。", "chose 是 choose 的過去式。", ["chose", "選擇了"], ["topic", "主題"], ["useful", "有用的"]],
-  [4, "整理與輸出", "比較選項", "... is better than ...", "This plan is better than the first one.", "這個計畫比第一個更好。", "better than 用來比較兩個人、事或選項。", ["better", "更好"], ["first one", "第一個"], ["option", "選項"]],
-  [4, "整理與輸出", "設定目標", "My goal is to...", "My goal is to speak English more confidently.", "我的目標是更有自信地說英文。", "My goal is to 後面接原形動詞。", ["goal", "目標"], ["confidently", "有自信地"], ["improve", "改善"]],
-  [4, "整理與輸出", "組織說話順序", "First..., then..., finally...", "First, I listened. Then, I repeated. Finally, I wrote it down.", "首先我聽，接著跟讀，最後寫下來。", "用順序詞讓口說內容更清楚。", ["first", "首先"], ["then", "接著"], ["finally", "最後"]],
-  [4, "整理與輸出", "換句話說", "Let me say that again.", "Let me say that again in a simpler way.", "讓我用更簡單的方式再說一次。", "這句可以幫你在口說時重新整理表達。", ["again", "再一次"], ["simpler", "更簡單的"], ["way", "方式"]],
-  [4, "整理與輸出", "四週總複習", "I used to..., but now...", "I used to feel nervous, but now I can speak more calmly.", "我以前會緊張，但現在可以更冷靜地說。", "used to 對比過去，but now 帶出現在的改變。", ["used to", "以前常常"], ["nervous", "緊張的"], ["calmly", "冷靜地"]]
+  [1, "日常學習", "practice", "verb / noun", "練習；實作", "把能力變熟的重複行動。", ["practice English", "練習英文"], ["daily practice", "每日練習"], ["practice more", "多練習"], "I practice English for ten minutes every day.", "每天我練習英文十分鐘。", "I need more practice before the test.", "考試前我需要更多練習。", "I practice ___ every ___.", ["練習", "忘記", "購買"]],
+  [1, "日常學習", "improve", "verb", "改善；進步", "讓能力、狀態或結果變得更好。", ["improve my English", "改善我的英文"], ["improve slowly", "慢慢進步"], ["improve a skill", "提升技能"], "I want to improve my English speaking.", "我想改善英文口說。", "My writing improved after daily practice.", "每天練習後，我的寫作進步了。", "I want to improve my ___.", ["改善", "等待", "借用"]],
+  [1, "日常學習", "review", "verb / noun", "複習；回顧", "重新看學過的內容，讓記憶更穩。", ["review notes", "複習筆記"], ["quick review", "快速複習"], ["review vocabulary", "複習單字"], "I review five words before bed.", "我睡前複習五個單字。", "This is a quick review of today's word.", "這是今日單字的快速複習。", "I review ___ before ___.", ["複習", "投票", "修理"]],
+  [1, "日常學習", "understand", "verb", "理解；明白", "知道內容的意思或原因。", ["understand a sentence", "理解句子"], ["understand the meaning", "理解意思"], ["easy to understand", "容易理解"], "I can understand this sentence.", "我可以理解這個句子。", "The example is easy to understand.", "這個例句很容易理解。", "I can understand ___.", ["理解", "關掉", "搬家"]],
+  [1, "日常學習", "remember", "verb", "記得；記住", "把資訊留在腦中，之後能想起來。", ["remember a word", "記住單字"], ["remember to do it", "記得去做"], ["easy to remember", "容易記住"], "I remember this word because I use it often.", "我記得這個字，因為我常使用它。", "This phrase is easy to remember.", "這個片語很容易記住。", "I remember ___ because ___.", ["記得", "拒絕", "安裝"]],
+  [1, "日常學習", "mistake", "noun", "錯誤", "做錯、寫錯或判斷錯的地方。", ["make a mistake", "犯錯"], ["common mistake", "常見錯誤"], ["learn from mistakes", "從錯誤中學習"], "It is okay to make a mistake.", "犯錯是可以的。", "I learn from my mistakes.", "我從錯誤中學習。", "I made a mistake in ___.", ["錯誤", "習慣", "價格"]],
+  [1, "日常學習", "habit", "noun", "習慣", "經常重複做的行為。", ["daily habit", "每日習慣"], ["build a habit", "建立習慣"], ["good habit", "好習慣"], "Reading one sentence is my daily habit.", "讀一句英文是我的每日習慣。", "I want to build a good study habit.", "我想建立好的學習習慣。", "I want to build a habit of ___.", ["習慣", "預訂", "方向"]],
+  [2, "生活行動", "choose", "verb", "選擇", "從幾個選項中挑一個。", ["choose a topic", "選一個主題"], ["choose carefully", "仔細選擇"], ["choose one", "選一個"], "I choose one useful word every day.", "我每天選一個實用單字。", "Please choose one example and rewrite it.", "請選一個例句並改寫。", "I choose ___ because ___.", ["選擇", "複習", "到達"]],
+  [2, "生活行動", "prepare", "verb", "準備", "事先做好需要的東西或安排。", ["prepare for a test", "準備考試"], ["prepare notes", "準備筆記"], ["well prepared", "準備充分"], "I prepare three sentences before class.", "我上課前準備三個句子。", "I need to prepare for tomorrow's meeting.", "我需要準備明天的會議。", "I prepare ___ before ___.", ["準備", "比較", "取消"]],
+  [2, "生活行動", "borrow", "verb", "借入", "向別人借東西來用。", ["borrow a book", "借一本書"], ["borrow money", "借錢"], ["borrow from a friend", "向朋友借"], "Can I borrow your dictionary?", "我可以借你的字典嗎？", "I borrowed a book from the library.", "我從圖書館借了一本書。", "Can I borrow ___?", ["借入", "提高", "完成"]],
+  [2, "生活行動", "return", "verb / noun", "歸還；回來", "把東西還回去，或回到某處。", ["return a book", "歸還書"], ["return home", "回家"], ["return ticket", "回程票"], "I need to return this book tomorrow.", "我明天需要還這本書。", "She returned home after work.", "她下班後回家。", "I need to return ___ by ___.", ["歸還", "發音", "解釋"]],
+  [2, "生活行動", "order", "verb / noun", "點餐；訂購；順序", "在餐廳點東西，或安排次序。", ["order food", "點餐"], ["in order", "按順序"], ["place an order", "下訂單"], "I would like to order a cup of tea.", "我想點一杯茶。", "Put these words in order.", "把這些單字按順序排好。", "I would like to order ___.", ["點餐", "練習", "理解"]],
+  [2, "生活行動", "confirm", "verb", "確認", "確認資訊正確或安排沒問題。", ["confirm the time", "確認時間"], ["confirm a booking", "確認訂位"], ["confirm details", "確認細節"], "Could you confirm the meeting time?", "可以請你確認會議時間嗎？", "I want to confirm the details first.", "我想先確認細節。", "Could you confirm ___?", ["確認", "緊張", "每日"]],
+  [2, "生活行動", "explain", "verb", "解釋", "把原因、意思或方法說清楚。", ["explain clearly", "清楚解釋"], ["explain a word", "解釋單字"], ["explain to me", "向我解釋"], "Can you explain this word to me?", "你可以向我解釋這個單字嗎？", "I will explain my idea with an example.", "我會用例子解釋我的想法。", "Can you explain ___ to me?", ["解釋", "點餐", "歸還"]],
+  [3, "工作討論", "report", "noun / verb", "報告；回報", "整理資訊並說明結果。", ["write a report", "寫報告"], ["report a problem", "回報問題"], ["weekly report", "週報"], "I am working on the report now.", "我現在正在處理報告。", "Please report the problem to the team.", "請把問題回報給團隊。", "I am working on ___.", ["報告", "杯子", "習慣"]],
+  [3, "工作討論", "meeting", "noun", "會議", "為了討論事情而安排的聚會。", ["join a meeting", "參加會議"], ["meeting time", "會議時間"], ["team meeting", "團隊會議"], "The meeting starts at ten.", "會議十點開始。", "I need to prepare for the team meeting.", "我需要準備團隊會議。", "The meeting starts at ___.", ["會議", "句子", "價格"]],
+  [3, "工作討論", "deadline", "noun", "截止期限", "某件事必須完成的最後時間。", ["meet a deadline", "趕上截止期限"], ["before the deadline", "在期限前"], ["tight deadline", "很緊的期限"], "I need to finish this before the deadline.", "我需要在期限前完成這件事。", "The deadline is next Friday.", "截止期限是下週五。", "I need to finish ___ before the deadline.", ["截止期限", "方向", "現金"]],
+  [3, "工作討論", "detail", "noun", "細節", "小但重要的資訊。", ["check the details", "檢查細節"], ["important detail", "重要細節"], ["more details", "更多細節"], "Please check the details before you send it.", "寄出前請檢查細節。", "I need more details about the plan.", "我需要更多關於計畫的細節。", "Please check the details of ___.", ["細節", "錯誤", "早餐"]],
+  [3, "工作討論", "suggest", "verb", "建議", "提出一個可能的做法或想法。", ["suggest an idea", "提出想法"], ["suggest a change", "建議修改"], ["strongly suggest", "強烈建議"], "I suggest we start with the main idea.", "我建議我們從主要想法開始。", "She suggested a better way to study.", "她建議了一個更好的學習方法。", "I suggest we ___.", ["建議", "歸還", "訂購"]],
+  [3, "工作討論", "decision", "noun", "決定", "想清楚後選定的結果。", ["make a decision", "做決定"], ["final decision", "最終決定"], ["quick decision", "快速決定"], "We need to make a decision today.", "我們今天需要做決定。", "This is not the final decision.", "這不是最終決定。", "We need to make a decision about ___.", ["決定", "片語", "車站"]],
+  [3, "工作討論", "progress", "noun", "進度；進展", "事情往前推進的狀態。", ["make progress", "取得進展"], ["check progress", "檢查進度"], ["study progress", "學習進度"], "I made progress after one week of practice.", "練習一週後，我有進步。", "Let's check our progress every Friday.", "我們每週五檢查進度吧。", "I made progress in ___.", ["進度", "照片", "問題"]],
+  [4, "整理輸出", "useful", "adjective", "有用的；實用的", "能幫上忙或值得使用的。", ["useful phrase", "實用片語"], ["useful for work", "對工作有用"], ["very useful", "非常有用"], "This phrase is useful for work.", "這個片語對工作有用。", "I learned three useful words today.", "我今天學了三個實用單字。", "This word is useful for ___.", ["有用的", "緊張的", "最近的"]],
+  [4, "整理輸出", "confident", "adjective", "有自信的", "相信自己可以做好。", ["feel confident", "感到有自信"], ["confident speaker", "有自信的說話者"], ["more confident", "更有自信"], "I feel more confident when I know useful words.", "知道實用單字時，我會更有自信。", "Practice helps me become confident.", "練習幫助我變得有自信。", "I feel confident when ___.", ["有自信的", "便宜的", "清楚地"]],
+  [4, "整理輸出", "simple", "adjective", "簡單的", "不複雜、容易理解。", ["simple sentence", "簡單句"], ["simple idea", "簡單想法"], ["keep it simple", "保持簡單"], "Write a simple sentence with this word.", "用這個字寫一個簡單句。", "The idea is simple but useful.", "這個想法簡單但有用。", "I can write a simple sentence about ___.", ["簡單的", "最後", "可用的"]],
+  [4, "整理輸出", "clear", "adjective / verb", "清楚的；清除", "容易理解，或把東西移除。", ["clear sentence", "清楚的句子"], ["clear idea", "清楚的想法"], ["make it clear", "把它說清楚"], "This example makes the word clear.", "這個例子讓單字變清楚。", "Please make your sentence clear.", "請把你的句子寫清楚。", "This example makes ___ clear.", ["清楚的", "預訂", "借入"]],
+  [4, "整理輸出", "example", "noun", "例子", "用來說明某個想法或規則的句子、事情。", ["give an example", "舉例"], ["example sentence", "例句"], ["good example", "好例子"], "Can you give me an example?", "你可以給我一個例子嗎？", "This example sentence helps me remember the word.", "這個例句幫我記住單字。", "Can you give me an example of ___?", ["例子", "截止期限", "進步"]],
+  [4, "整理輸出", "connect", "verb", "連結；連接", "把兩件事物或想法接在一起。", ["connect ideas", "連結想法"], ["connect words", "連結單字"], ["connect with life", "和生活連結"], "I connect this word with my daily life.", "我把這個單字和日常生活連結。", "Try to connect new words with examples.", "試著把新單字和例句連結。", "I connect ___ with ___.", ["連結", "選擇", "點餐"]],
+  [4, "整理輸出", "summary", "noun", "摘要；總結", "把重點用簡短方式整理出來。", ["write a summary", "寫摘要"], ["short summary", "短摘要"], ["lesson summary", "課程總結"], "Write a short summary of today's word.", "寫一個今日單字的短摘要。", "My summary has one example sentence.", "我的摘要有一個例句。", "My summary of ___ is ___.", ["摘要", "習慣", "會議"]]
 ];
 
 const lessons = lessonRows.map((row, index) => {
-  const [week, theme, title, pattern, line, meaning, note, ...vocab] = row;
+  const [week, theme, word, type, meaning, note, phraseA, phraseB, phraseC, exampleA, translationA, exampleB, translationB, template, quizOptions] = row;
   return {
     week,
     theme,
-    title,
-    pattern,
-    line,
+    title: word,
+    word,
+    type,
     meaning,
     note,
-    vocab,
-    level: index < 14 ? "A1" : "A2",
-    summary: `今天練習「${pattern}」，用一個句型完成朗讀、造句、跟讀與筆記。`,
+    phrases: [phraseA, phraseB, phraseC],
     examples: [
-      [line, meaning],
-      [makeSecondExample(line), "替換主詞或單字，讓句子變成自己的版本。"]
+      [exampleA, translationA],
+      [exampleB, translationB]
     ],
-    quiz: makeQuiz(pattern)
+    template,
+    level: index < 14 ? "A1" : "A2",
+    summary: `今天學「${word}」，再用它寫出自己的英文句子。`,
+    quiz: {
+      question: `"${word}" 最接近哪個意思？`,
+      options: quizOptions,
+      answer: 0,
+      explain: `今天的重點是把 "${word}" 放進自己的句子裡。`
+    }
   };
 });
 
@@ -77,13 +70,6 @@ let selectedDay = Math.min(state.selectedDay ?? state.completedDays, lessons.len
 let currentSegment = 0;
 let remainingSeconds = 20 * 60;
 let timerId = null;
-let availableVoices = [];
-let recognition = null;
-let isRecording = false;
-
-if (state.shadowIndex < 0 || state.shadowIndex >= shadowBank.length) {
-  state.shadowIndex = 0;
-}
 
 const dom = {
   todayLabel: document.querySelector("#todayLabel"),
@@ -91,72 +77,38 @@ const dom = {
   weekTag: document.querySelector("#weekTag"),
   lessonTitle: document.querySelector("#lessonTitle"),
   lessonSummary: document.querySelector("#lessonSummary"),
-  featuredLine: document.querySelector("#featuredLine"),
+  featuredWord: document.querySelector("#featuredWord"),
   featuredMeaning: document.querySelector("#featuredMeaning"),
   completeDayButton: document.querySelector("#completeDayButton"),
-  playFeaturedButton: document.querySelector("#playFeaturedButton"),
+  copyWordButton: document.querySelector("#copyWordButton"),
   resetButton: document.querySelector("#resetButton"),
   timerReadout: document.querySelector("#timerReadout"),
   segmentList: document.querySelector("#segmentList"),
   startTimerButton: document.querySelector("#startTimerButton"),
   nextSegmentButton: document.querySelector("#nextSegmentButton"),
   resetTimerButton: document.querySelector("#resetTimerButton"),
-  patternTitle: document.querySelector("#patternTitle"),
+  wordTitle: document.querySelector("#wordTitle"),
   lessonLevel: document.querySelector("#lessonLevel"),
-  patternNote: document.querySelector("#patternNote"),
+  wordType: document.querySelector("#wordType"),
+  wordMeaning: document.querySelector("#wordMeaning"),
+  wordDetailList: document.querySelector("#wordDetailList"),
+  phraseList: document.querySelector("#phraseList"),
+  phraseInput: document.querySelector("#phraseInput"),
   exampleStack: document.querySelector("#exampleStack"),
-  sentenceInput: document.querySelector("#sentenceInput"),
-  playSentenceButton: document.querySelector("#playSentenceButton"),
   copyExampleButton: document.querySelector("#copyExampleButton"),
-  vocabList: document.querySelector("#vocabList"),
-  shuffleVocabButton: document.querySelector("#shuffleVocabButton"),
-  vocabInput: document.querySelector("#vocabInput"),
-  shadowLine: document.querySelector("#shadowLine"),
-  shadowMeaning: document.querySelector("#shadowMeaning"),
-  playShadowButton: document.querySelector("#playShadowButton"),
-  randomShadowButton: document.querySelector("#randomShadowButton"),
-  shadowInput: document.querySelector("#shadowInput"),
+  sentenceGuide: document.querySelector("#sentenceGuide"),
+  sentenceInput: document.querySelector("#sentenceInput"),
+  insertTemplateButton: document.querySelector("#insertTemplateButton"),
   quizQuestion: document.querySelector("#quizQuestion"),
   quizOptions: document.querySelector("#quizOptions"),
   quizResult: document.querySelector("#quizResult"),
-  speechStatus: document.querySelector("#speechStatus"),
-  recordButton: document.querySelector("#recordButton"),
-  speakingInput: document.querySelector("#speakingInput"),
   noteInput: document.querySelector("#noteInput"),
   saveNoteButton: document.querySelector("#saveNoteButton"),
-  voiceStatus: document.querySelector("#voiceStatus"),
-  voiceSelect: document.querySelector("#voiceSelect"),
-  rateControl: document.querySelector("#rateControl"),
-  rateLabel: document.querySelector("#rateLabel"),
-  stopVoiceButton: document.querySelector("#stopVoiceButton"),
   progressText: document.querySelector("#progressText"),
   progressBar: document.querySelector("#progressBar"),
   weekBoard: document.querySelector("#weekBoard"),
   notesList: document.querySelector("#notesList")
 };
-
-function makeSecondExample(line) {
-  if (line.startsWith("I am ")) return line.replace("I am ", "She is ");
-  if (line.startsWith("I usually ")) return line.replace("I usually ", "She usually ");
-  if (line.startsWith("I can ")) return line.replace("I can ", "We can ");
-  if (line.startsWith("I would like ")) return line.replace("I would like ", "We would like ");
-  if (line.startsWith("I think ")) return line.replace("I think ", "We think ");
-  if (line.startsWith("I see ")) return line.replace("I see ", "We see ");
-  if (line.startsWith("I learned ")) return line.replace("I learned ", "She learned ");
-  if (line.startsWith("I chose ")) return line.replace("I chose ", "We chose ");
-  if (line.startsWith("My ")) return line.replace("My ", "Our ");
-  if (line.startsWith("This ")) return line.replace("This ", "That ");
-  return line;
-}
-
-function makeQuiz(pattern) {
-  return {
-    question: `「${pattern}」最適合用來做什麼？`,
-    options: ["完成今天的表達任務", "背一個沒有情境的單字", "只看中文不開口"],
-    answer: 0,
-    explain: "重點是把句型放進自己的生活情境，並且真的唸出來。"
-  };
-}
 
 function loadState() {
   try {
@@ -168,9 +120,7 @@ function loadState() {
         streak: Number(saved.streak) || 0,
         lastCompletedDate: saved.lastCompletedDate || "",
         notes: Array.isArray(saved.notes) ? saved.notes : [],
-        drafts: saved.drafts && typeof saved.drafts === "object" ? saved.drafts : {},
-        shadowIndex: Number.isInteger(saved.shadowIndex) ? saved.shadowIndex : 0,
-        vocabOffset: Number(saved.vocabOffset) || 0
+        drafts: saved.drafts && typeof saved.drafts === "object" ? saved.drafts : {}
       };
     }
   } catch {
@@ -183,9 +133,7 @@ function loadState() {
     streak: 0,
     lastCompletedDate: "",
     notes: [],
-    drafts: {},
-    shadowIndex: 0,
-    vocabOffset: 0
+    drafts: {}
   };
 }
 
@@ -215,78 +163,73 @@ function currentLesson() {
   return lessons[selectedDay];
 }
 
-function currentShadow() {
-  return shadowBank[state.shadowIndex] || shadowBank[0];
-}
-
 function renderLesson() {
   const lesson = currentLesson();
   dom.todayLabel.textContent = `第 ${selectedDay + 1} 天`;
   dom.streakLabel.textContent = `連續 ${state.streak} 天`;
   dom.weekTag.textContent = `Week ${lesson.week}`;
-  dom.lessonTitle.textContent = lesson.title;
+  dom.lessonTitle.textContent = lesson.word;
   dom.lessonSummary.textContent = lesson.summary;
-  dom.featuredLine.textContent = lesson.line;
+  dom.featuredWord.textContent = lesson.word;
   dom.featuredMeaning.textContent = lesson.meaning;
-  dom.patternTitle.textContent = lesson.pattern;
+  dom.wordTitle.textContent = lesson.word;
   dom.lessonLevel.textContent = lesson.level;
-  dom.patternNote.textContent = lesson.note;
+  dom.wordType.textContent = lesson.type;
+  dom.wordMeaning.textContent = lesson.meaning;
+  dom.sentenceGuide.textContent = `用 "${lesson.word}" 寫一句跟你自己有關的英文。`;
 
-  dom.exampleStack.replaceChildren(
-    ...lesson.examples.map(([en, zh]) => {
-      const card = document.createElement("div");
-      card.className = "example-card";
-
-      const content = document.createElement("div");
-      const line = document.createElement("strong");
-      line.textContent = en;
-      const meaning = document.createElement("span");
-      meaning.textContent = zh;
-      content.append(line, meaning);
-
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = "播放";
-      button.setAttribute("aria-label", `播放 ${en}`);
-      button.addEventListener("click", () => speakEnglish(en));
-
-      card.append(content, button);
-      return card;
-    })
+  dom.wordDetailList.replaceChildren(
+    makeInfoRow("使用情境", lesson.note),
+    makeInfoRow("句型模板", lesson.template)
   );
 
-  renderVocab();
+  renderPhrases();
+  renderExamples();
   renderQuiz();
   loadDrafts();
   renderProgress();
 }
 
-function renderVocab() {
-  const lesson = currentLesson();
-  const offset = state.vocabOffset % lesson.vocab.length;
-  const vocab = [...lesson.vocab.slice(offset), ...lesson.vocab.slice(0, offset)];
-  dom.vocabList.replaceChildren(
-    ...vocab.map(([word, meaning]) => {
+function makeInfoRow(label, text) {
+  const row = document.createElement("div");
+  row.className = "info-row";
+  const strong = document.createElement("strong");
+  strong.textContent = label;
+  const span = document.createElement("span");
+  span.textContent = text;
+  row.append(strong, span);
+  return row;
+}
+
+function renderPhrases() {
+  dom.phraseList.replaceChildren(
+    ...currentLesson().phrases.map(([phrase, meaning]) => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "vocab-card";
-
-      const title = document.createElement("strong");
-      title.textContent = word;
-      const detail = document.createElement("span");
-      detail.textContent = meaning;
-
-      button.append(title, detail);
-      button.addEventListener("click", () => speakEnglish(word));
+      button.className = "phrase-card";
+      button.innerHTML = `<strong>${phrase}</strong><span>${meaning}</span>`;
+      button.addEventListener("click", () => {
+        dom.phraseInput.value = phrase;
+        saveDrafts();
+      });
       return button;
     })
   );
 }
 
-function renderShadow() {
-  const shadow = currentShadow();
-  dom.shadowLine.textContent = shadow.line;
-  dom.shadowMeaning.textContent = shadow.meaning;
+function renderExamples() {
+  dom.exampleStack.replaceChildren(
+    ...currentLesson().examples.map(([en, zh]) => {
+      const card = document.createElement("div");
+      card.className = "example-card";
+      const strong = document.createElement("strong");
+      strong.textContent = en;
+      const span = document.createElement("span");
+      span.textContent = zh;
+      card.append(strong, span);
+      return card;
+    })
+  );
 }
 
 function renderQuiz() {
@@ -361,7 +304,7 @@ function renderBoard() {
       if (lesson.index < state.completedDays) button.classList.add("done");
       button.innerHTML = `
         <span class="day-dot">${lesson.index + 1}</span>
-        <span>${lesson.title}</span>
+        <span>${lesson.word}</span>
       `;
       button.addEventListener("click", () => {
         saveDrafts();
@@ -381,7 +324,7 @@ function renderBoard() {
 
 function renderNotes() {
   if (!state.notes.length) {
-    dom.notesList.innerHTML = '<p class="empty-notes">還沒有筆記。完成今天或按「儲存筆記」後，內容會保存在這裡。</p>';
+    dom.notesList.innerHTML = '<p class="empty-notes">還沒有筆記。儲存句子或完成今天後，內容會保存在這裡。</p>';
     return;
   }
 
@@ -390,7 +333,7 @@ function renderNotes() {
       const card = document.createElement("div");
       card.className = "note-card";
       const time = document.createElement("time");
-      time.textContent = `${note.date}，第 ${note.day + 1} 天`;
+      time.textContent = `${note.date}，第 ${note.day + 1} 天：${note.word}`;
       const text = document.createElement("p");
       text.textContent = note.text;
       card.append(time, text);
@@ -399,20 +342,10 @@ function renderNotes() {
   );
 }
 
-function renderAll() {
-  renderLesson();
-  renderShadow();
-  renderSegments();
-  renderBoard();
-  renderNotes();
-}
-
 function saveDrafts() {
   state.drafts[selectedDay] = {
+    phrase: dom.phraseInput.value,
     sentence: dom.sentenceInput.value,
-    vocab: dom.vocabInput.value,
-    shadow: dom.shadowInput.value,
-    speaking: dom.speakingInput.value,
     note: dom.noteInput.value
   };
   saveState();
@@ -420,81 +353,16 @@ function saveDrafts() {
 
 function loadDrafts() {
   const draft = state.drafts[selectedDay] || {};
+  dom.phraseInput.value = draft.phrase || "";
   dom.sentenceInput.value = draft.sentence || "";
-  dom.vocabInput.value = draft.vocab || "";
-  dom.shadowInput.value = draft.shadow || "";
-  dom.speakingInput.value = draft.speaking || "";
   dom.noteInput.value = draft.note || "";
 }
 
-function supportsSpeech() {
-  return "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
-}
-
-function getEnglishVoices() {
-  return availableVoices.filter((voice) => voice.lang && voice.lang.toLowerCase().startsWith("en"));
-}
-
-function populateVoices() {
-  if (!supportsSpeech()) {
-    dom.voiceStatus.textContent = "這個瀏覽器不支援語音播放。";
-    dom.voiceSelect.innerHTML = "<option>無可用語音</option>";
-    dom.voiceSelect.disabled = true;
-    return;
-  }
-
-  availableVoices = window.speechSynthesis.getVoices();
-  const englishVoices = getEnglishVoices();
-  const usableVoices = englishVoices.length ? englishVoices : availableVoices;
-  dom.voiceSelect.replaceChildren(
-    ...usableVoices.map((voice) => {
-      const option = document.createElement("option");
-      option.value = voice.name;
-      option.textContent = `${voice.name} (${voice.lang})`;
-      return option;
-    })
-  );
-
-  dom.voiceSelect.disabled = usableVoices.length === 0;
-  if (!usableVoices.length) {
-    dom.voiceStatus.textContent = "尚未取得語音清單，稍後可再試一次。";
-  } else if (!englishVoices.length) {
-    dom.voiceStatus.textContent = "沒有找到英文語音，會使用瀏覽器預設語音。";
-  } else {
-    dom.voiceStatus.textContent = "已載入英文語音。建議用 0.85x 慢速跟讀。";
-  }
-}
-
-function selectedVoice() {
-  const name = dom.voiceSelect.value;
-  return availableVoices.find((voice) => voice.name === name) || getEnglishVoices()[0] || availableVoices[0] || null;
-}
-
-function speakEnglish(text) {
-  const cleanText = text.trim();
-  if (!cleanText || !supportsSpeech()) return;
-
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(cleanText);
-  utterance.lang = "en-US";
-  utterance.rate = Number(dom.rateControl.value) || 0.85;
-  utterance.pitch = 1;
-  const voice = selectedVoice();
-  if (voice) utterance.voice = voice;
-  utterance.onstart = () => {
-    dom.voiceStatus.textContent = "正在播放英文。";
-  };
-  utterance.onend = () => {
-    dom.voiceStatus.textContent = "播放完成。";
-  };
-  utterance.onerror = () => {
-    dom.voiceStatus.textContent = "播放失敗，請確認瀏覽器語音功能。";
-  };
-  window.speechSynthesis.speak(utterance);
-}
-
-function speakTextarea(field, fallbackText) {
-  speakEnglish(field.value.trim() || fallbackText);
+function renderAll() {
+  renderLesson();
+  renderSegments();
+  renderBoard();
+  renderNotes();
 }
 
 function startTimer() {
@@ -538,39 +406,20 @@ function resetTimer() {
   renderSegments();
 }
 
-function chooseRandomShadow() {
-  if (shadowBank.length <= 1) return;
-  let nextIndex = state.shadowIndex;
-  while (nextIndex === state.shadowIndex) {
-    nextIndex = Math.floor(Math.random() * shadowBank.length);
-  }
-  state.shadowIndex = nextIndex;
-  dom.shadowInput.value = "";
-  saveState();
-  renderShadow();
-}
-
-function shuffleVocab() {
-  state.vocabOffset = (state.vocabOffset + 1) % currentLesson().vocab.length;
-  saveState();
-  renderVocab();
-}
-
 function saveNote() {
   saveDrafts();
+  const lesson = currentLesson();
   const parts = [
-    dom.sentenceInput.value.trim() ? `造句：\n${dom.sentenceInput.value.trim()}` : "",
-    dom.vocabInput.value.trim() ? `單字短句：\n${dom.vocabInput.value.trim()}` : "",
-    dom.shadowInput.value.trim() ? `跟讀：\n${dom.shadowInput.value.trim()}` : "",
-    dom.speakingInput.value.trim() ? `口說：\n${dom.speakingInput.value.trim()}` : "",
+    `單字：${lesson.word}（${lesson.meaning}）`,
+    dom.phraseInput.value.trim() ? `搭配短句：\n${dom.phraseInput.value.trim()}` : "",
+    dom.sentenceInput.value.trim() ? `延伸造句：\n${dom.sentenceInput.value.trim()}` : "",
     dom.noteInput.value.trim() ? `筆記：\n${dom.noteInput.value.trim()}` : ""
   ].filter(Boolean);
-
-  if (!parts.length) return;
 
   state.notes.unshift({
     date: todayKey(),
     day: selectedDay,
+    word: lesson.word,
     text: parts.join("\n\n")
   });
   state.notes = state.notes.slice(0, 40);
@@ -601,79 +450,26 @@ function resetProgress() {
   renderAll();
 }
 
-function setupRecognition() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    dom.speechStatus.textContent = "這個瀏覽器不支援語音辨識；你仍然可以手動輸入口說內容。";
-    dom.recordButton.disabled = true;
-    return;
-  }
-
-  recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.interimResults = true;
-  recognition.continuous = false;
-  recognition.onstart = () => {
-    isRecording = true;
-    dom.recordButton.textContent = "停止錄音";
-    dom.speechStatus.textContent = "正在聽你的英文。";
-  };
-  recognition.onresult = (event) => {
-    const transcript = Array.from(event.results).map((result) => result[0].transcript).join("");
-    dom.speakingInput.value = transcript;
-    saveDrafts();
-  };
-  recognition.onend = () => {
-    isRecording = false;
-    dom.recordButton.textContent = "開始錄音";
-    dom.speechStatus.textContent = "錄音結束，可以修改文字後儲存。";
-  };
-  recognition.onerror = () => {
-    isRecording = false;
-    dom.recordButton.textContent = "開始錄音";
-    dom.speechStatus.textContent = "語音辨識失敗，請檢查麥克風權限或改用手動輸入。";
-  };
-}
-
-function toggleRecognition() {
-  if (!recognition) return;
-  if (isRecording) {
-    recognition.stop();
-  } else {
-    recognition.start();
-  }
-}
-
 dom.startTimerButton.addEventListener("click", startTimer);
 dom.nextSegmentButton.addEventListener("click", advanceSegment);
 dom.resetTimerButton.addEventListener("click", resetTimer);
 dom.completeDayButton.addEventListener("click", completeDay);
-dom.playFeaturedButton.addEventListener("click", () => speakEnglish(currentLesson().line));
-dom.playSentenceButton.addEventListener("click", () => speakTextarea(dom.sentenceInput, currentLesson().line));
-dom.copyExampleButton.addEventListener("click", () => {
-  dom.sentenceInput.value = currentLesson().line;
+dom.copyWordButton.addEventListener("click", () => {
+  dom.sentenceInput.value = currentLesson().word;
   saveDrafts();
 });
-dom.shuffleVocabButton.addEventListener("click", shuffleVocab);
-dom.playShadowButton.addEventListener("click", () => speakEnglish(currentShadow().line));
-dom.randomShadowButton.addEventListener("click", chooseRandomShadow);
+dom.copyExampleButton.addEventListener("click", () => {
+  dom.sentenceInput.value = currentLesson().examples[0][0];
+  saveDrafts();
+});
+dom.insertTemplateButton.addEventListener("click", () => {
+  dom.sentenceInput.value = currentLesson().template;
+  saveDrafts();
+});
 dom.saveNoteButton.addEventListener("click", saveNote);
-dom.recordButton.addEventListener("click", toggleRecognition);
-dom.stopVoiceButton.addEventListener("click", () => {
-  if (supportsSpeech()) window.speechSynthesis.cancel();
-});
-dom.rateControl.addEventListener("input", () => {
-  dom.rateLabel.textContent = `${Number(dom.rateControl.value).toFixed(2).replace(/0$/, "")}x`;
-});
 dom.resetButton.addEventListener("click", resetProgress);
-[dom.sentenceInput, dom.vocabInput, dom.shadowInput, dom.speakingInput, dom.noteInput].forEach((field) => {
+[dom.phraseInput, dom.sentenceInput, dom.noteInput].forEach((field) => {
   field.addEventListener("input", saveDrafts);
 });
 
-if (supportsSpeech()) {
-  window.speechSynthesis.addEventListener("voiceschanged", populateVoices);
-}
-
-setupRecognition();
-populateVoices();
 renderAll();
