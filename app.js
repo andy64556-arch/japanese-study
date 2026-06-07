@@ -785,6 +785,94 @@ const lessons = [
   }
 ];
 
+const partThemes = {
+  1: {
+    key: "race",
+    accent: "#c65a2d",
+    accentDark: "#98401f",
+    soft: "#fff0df",
+    sceneSky: "linear-gradient(180deg, #bfe3ed 0 48%, #f0d4a7 48% 100%)",
+    ground: "#b9683b",
+    boardFrame: "#8d5a31",
+    boardBg: "#1f433b",
+    scene: `
+      <div class="sun"></div>
+      <div class="race-hill hill-one"></div>
+      <div class="race-hill hill-two"></div>
+      <div class="race-track">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="race-flag"><i></i></div>
+      <div class="hare">
+        <i class="hare-ear one"></i><i class="hare-ear two"></i>
+        <i class="hare-body"></i><i class="hare-head"></i><i class="hare-tail"></i>
+      </div>
+      <div class="tortoise">
+        <i class="shell"></i><i class="tortoise-head"></i>
+        <i class="foot one"></i><i class="foot two"></i><i class="foot three"></i>
+      </div>
+    `
+  },
+  2: {
+    key: "lion",
+    accent: "#b87924",
+    accentDark: "#8f5c18",
+    soft: "#fff4d8",
+    sceneSky: "linear-gradient(180deg, #f4d38b 0 52%, #dfaa5a 52% 100%)",
+    ground: "#c98637",
+    boardFrame: "#7b4e1d",
+    boardBg: "#283a2c",
+    scene: `
+      <div class="savanna-sun"></div>
+      <div class="acacia"><i></i><i></i><i></i></div>
+      <div class="rope-trap"><span></span><span></span></div>
+      <div class="lion-shape">
+        <i class="mane"></i><i class="lion-face"></i><i class="lion-body"></i><i class="lion-tail"></i>
+      </div>
+      <div class="mouse-shape">
+        <i class="mouse-body"></i><i class="mouse-ear"></i><i class="mouse-tail"></i>
+      </div>
+    `
+  },
+  3: {
+    key: "cinderella",
+    accent: "#596fb8",
+    accentDark: "#3f5393",
+    soft: "#edf1ff",
+    sceneSky: "linear-gradient(180deg, #9fb1e8 0 54%, #d8c6d6 54% 100%)",
+    ground: "#b9a1c0",
+    boardFrame: "#5c4f86",
+    boardBg: "#26324f",
+    scene: `
+      <div class="moon"></div>
+      <div class="sparkle one"></div><div class="sparkle two"></div><div class="sparkle three"></div>
+      <div class="castle">
+        <i class="tower left"></i><i class="tower right"></i><i class="hall"></i><i class="gate"></i>
+      </div>
+      <div class="clock-face"><span></span><i></i></div>
+      <div class="slipper-shape"><i></i></div>
+    `
+  },
+  4: {
+    key: "swan",
+    accent: "#377f8f",
+    accentDark: "#266474",
+    soft: "#e9f6f7",
+    sceneSky: "linear-gradient(180deg, #c6e6ef 0 50%, #9fcbd3 50% 100%)",
+    ground: "#76aeb8",
+    boardFrame: "#446c75",
+    boardBg: "#213c45",
+    scene: `
+      <div class="reed left"></div><div class="reed right"></div>
+      <div class="pond-ripple one"></div><div class="pond-ripple two"></div>
+      <div class="swan-shape">
+        <i class="swan-body"></i><i class="swan-neck"></i><i class="swan-head"></i><i class="swan-wing"></i>
+      </div>
+      <div class="reflection-shape"></div>
+    `
+  }
+};
+
 const storageKey = "my-vocabulary-story-fables-v1";
 
 const state = {
@@ -834,7 +922,8 @@ const elements = {
   progressText: document.querySelector("#progressText"),
   progressBar: document.querySelector("#progressBar"),
   partBoard: document.querySelector("#partBoard"),
-  notesList: document.querySelector("#notesList")
+  notesList: document.querySelector("#notesList"),
+  themeScene: document.querySelector("#themeScene")
 };
 
 function loadState() {
@@ -876,6 +965,7 @@ function render() {
   const lesson = activeLesson();
   const progress = Math.round((state.completedCards / lessons.length) * 100);
 
+  applyTheme(lesson.part);
   elements.collectionLabel.textContent = `已收集 ${state.completedCards} 個`;
   elements.storyCountLabel.textContent = `故事句 ${state.stories.length} 句`;
   elements.partTag.textContent = `Part ${lesson.part}`;
@@ -919,6 +1009,20 @@ function render() {
   renderNotes();
 }
 
+function applyTheme(part) {
+  const theme = partThemes[part] || partThemes[1];
+  document.body.dataset.storyTheme = theme.key;
+  document.documentElement.style.setProperty("--accent", theme.accent);
+  document.documentElement.style.setProperty("--accent-dark", theme.accentDark);
+  document.documentElement.style.setProperty("--soft", theme.soft);
+  document.documentElement.style.setProperty("--scene-sky", theme.sceneSky);
+  document.documentElement.style.setProperty("--scene-ground", theme.ground);
+  document.documentElement.style.setProperty("--board-frame", theme.boardFrame);
+  document.documentElement.style.setProperty("--board-bg", theme.boardBg);
+  elements.themeScene.className = `theme-scene ${theme.key}-scene`;
+  elements.themeScene.innerHTML = theme.scene;
+}
+
 function renderQuiz(lesson) {
   elements.quizResult.textContent = "";
   elements.quizOptions.innerHTML = lesson.quiz.options
@@ -948,8 +1052,9 @@ function renderParts() {
       const collected = Math.max(0, Math.min(state.completedCards - firstIndex, cards.length));
       const active = state.cardIndex >= firstIndex && state.cardIndex <= lastIndex;
       const title = cards[0].theme;
+      const theme = partThemes[part] || partThemes[1];
       return `
-        <button class="part-card${active ? " is-active" : ""}" type="button" data-index="${firstIndex}">
+        <button class="part-card ${theme.key}-part${active ? " is-active" : ""}" type="button" data-index="${firstIndex}">
           <span>Part ${part}</span>
           <strong>${title}</strong>
           <small>${collected} / ${cards.length} words</small>
