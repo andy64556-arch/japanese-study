@@ -785,6 +785,37 @@ const lessons = [
   }
 ];
 
+const pronunciations = {
+  race: "/reɪs/ · 近似：瑞斯",
+  boast: "/boʊst/ · 近似：波斯特",
+  steady: "/ˈstedi/ · 近似：STEH-dee",
+  patient: "/ˈpeɪʃənt/ · 近似：PAY-shənt",
+  rest: "/rest/ · 近似：瑞斯特",
+  finish: "/ˈfɪnɪʃ/ · 近似：FIN-ish",
+  humble: "/ˈhʌmbəl/ · 近似：HUM-bəl",
+  tiny: "/ˈtaɪni/ · 近似：TYE-nee",
+  trap: "/træp/ · 近似：træp",
+  promise: "/ˈprɑːmɪs/ · 近似：PRAH-miss",
+  rescue: "/ˈreskjuː/ · 近似：RES-kyoo",
+  kindness: "/ˈkaɪndnəs/ · 近似：KYND-nəs",
+  grateful: "/ˈɡreɪtfəl/ · 近似：GRAYT-fəl",
+  free: "/friː/ · 近似：free",
+  kind: "/kaɪnd/ · 近似：kynd",
+  invitation: "/ˌɪnvɪˈteɪʃən/ · 近似：in-vih-TAY-shən",
+  midnight: "/ˈmɪdnaɪt/ · 近似：MID-nyte",
+  courage: "/ˈkɜːrɪdʒ/ · 近似：KUR-ij",
+  slipper: "/ˈslɪpər/ · 近似：SLIP-er",
+  change: "/tʃeɪndʒ/ · 近似：chaynj",
+  choose: "/tʃuːz/ · 近似：chooz",
+  different: "/ˈdɪfərənt/ · 近似：DIF-er-ənt",
+  lonely: "/ˈloʊnli/ · 近似：LOHN-lee",
+  reflection: "/rɪˈflekʃən/ · 近似：ri-FLEK-shən",
+  swan: "/swɑːn/ · 近似：swahn",
+  belong: "/bɪˈlɔːŋ/ · 近似：bih-LAWNG",
+  gentle: "/ˈdʒentəl/ · 近似：JEN-təl",
+  beautiful: "/ˈbjuːtɪfəl/ · 近似：BYOO-tih-fəl"
+};
+
 const partThemes = {
   1: {
     key: "race",
@@ -901,6 +932,8 @@ const elements = {
   wordTitle: document.querySelector("#wordTitle"),
   lessonLevel: document.querySelector("#lessonLevel"),
   wordType: document.querySelector("#wordType"),
+  wordPronunciation: document.querySelector("#wordPronunciation"),
+  speakWordButton: document.querySelector("#speakWordButton"),
   wordMeaning: document.querySelector("#wordMeaning"),
   wordDetailList: document.querySelector("#wordDetailList"),
   phraseList: document.querySelector("#phraseList"),
@@ -980,6 +1013,8 @@ function render() {
   elements.wordTitle.textContent = lesson.word;
   elements.lessonLevel.textContent = lesson.source;
   elements.wordType.textContent = lesson.type;
+  elements.wordPronunciation.textContent = `Pronunciation ${pronunciations[lesson.word] || ""}`;
+  elements.speakWordButton.textContent = "播放唸法";
   elements.wordMeaning.textContent = lesson.meaning;
   elements.storyPartLabel.textContent = `Part ${lesson.part}`;
   elements.storyContext.textContent = `${lesson.theme} / ${lesson.source}`;
@@ -1174,6 +1209,30 @@ function copyToClipboard(text) {
   area.remove();
 }
 
+function speakWord() {
+  const lesson = activeLesson();
+  if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+    elements.speakWordButton.textContent = "此瀏覽器不支援";
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(lesson.word);
+  utterance.lang = "en-US";
+  utterance.rate = 0.82;
+  utterance.pitch = 1;
+  utterance.onstart = () => {
+    elements.speakWordButton.textContent = "正在播放";
+  };
+  utterance.onend = () => {
+    elements.speakWordButton.textContent = "播放唸法";
+  };
+  utterance.onerror = () => {
+    elements.speakWordButton.textContent = "播放唸法";
+  };
+  window.speechSynthesis.speak(utterance);
+}
+
 elements.saveCardButton.addEventListener("click", saveCard);
 
 elements.copyWordButton.addEventListener("click", () => {
@@ -1184,6 +1243,8 @@ elements.copyWordButton.addEventListener("click", () => {
 elements.copyExampleButton.addEventListener("click", () => {
   copyToClipboard(activeLesson().examples.map(([sentence]) => sentence).join("\n"));
 });
+
+elements.speakWordButton.addEventListener("click", speakWord);
 
 elements.insertTemplateButton.addEventListener("click", () => {
   insertText(elements.sentenceInput, activeLesson().sentenceTemplate);
