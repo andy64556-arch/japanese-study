@@ -933,7 +933,6 @@ const elements = {
   lessonLevel: document.querySelector("#lessonLevel"),
   wordType: document.querySelector("#wordType"),
   wordPronunciation: document.querySelector("#wordPronunciation"),
-  speakWordButton: document.querySelector("#speakWordButton"),
   wordMeaning: document.querySelector("#wordMeaning"),
   wordDetailList: document.querySelector("#wordDetailList"),
   phraseList: document.querySelector("#phraseList"),
@@ -1009,12 +1008,15 @@ function render() {
   elements.lessonTitle.textContent = `${lesson.theme}: ${lesson.word}`;
   elements.lessonSummary.textContent = lesson.summary;
   elements.featuredWord.textContent = lesson.word;
+  elements.featuredWord.setAttribute("aria-label", `播放 ${lesson.word} 的唸法`);
+  elements.featuredWord.title = "點這個單字播放唸法";
   elements.featuredMeaning.textContent = lesson.meaning;
   elements.wordTitle.textContent = lesson.word;
+  elements.wordTitle.setAttribute("aria-label", `播放 ${lesson.word} 的唸法`);
+  elements.wordTitle.title = "點這個單字播放唸法";
   elements.lessonLevel.textContent = lesson.source;
   elements.wordType.textContent = lesson.type;
   elements.wordPronunciation.textContent = `Pronunciation ${pronunciations[lesson.word] || ""}`;
-  elements.speakWordButton.textContent = "播放唸法";
   elements.wordMeaning.textContent = lesson.meaning;
   elements.storyPartLabel.textContent = `Part ${lesson.part}`;
   elements.storyContext.textContent = `${lesson.theme} / ${lesson.source}`;
@@ -1209,26 +1211,27 @@ function copyToClipboard(text) {
   area.remove();
 }
 
-function speakWord() {
+function speakWord(event) {
   const lesson = activeLesson();
   if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
-    elements.speakWordButton.textContent = "此瀏覽器不支援";
+    elements.wordPronunciation.textContent = `Pronunciation ${pronunciations[lesson.word] || ""} · 此瀏覽器不支援播放`;
     return;
   }
 
+  const target = event?.currentTarget;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(lesson.word);
   utterance.lang = "en-US";
   utterance.rate = 0.82;
   utterance.pitch = 1;
   utterance.onstart = () => {
-    elements.speakWordButton.textContent = "正在播放";
+    target?.classList.add("is-speaking");
   };
   utterance.onend = () => {
-    elements.speakWordButton.textContent = "播放唸法";
+    target?.classList.remove("is-speaking");
   };
   utterance.onerror = () => {
-    elements.speakWordButton.textContent = "播放唸法";
+    target?.classList.remove("is-speaking");
   };
   window.speechSynthesis.speak(utterance);
 }
@@ -1244,7 +1247,8 @@ elements.copyExampleButton.addEventListener("click", () => {
   copyToClipboard(activeLesson().examples.map(([sentence]) => sentence).join("\n"));
 });
 
-elements.speakWordButton.addEventListener("click", speakWord);
+elements.featuredWord.addEventListener("click", speakWord);
+elements.wordTitle.addEventListener("click", speakWord);
 
 elements.insertTemplateButton.addEventListener("click", () => {
   insertText(elements.sentenceInput, activeLesson().sentenceTemplate);

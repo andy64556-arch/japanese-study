@@ -239,10 +239,32 @@ button {
   color: rgba(255, 255, 255, 0.65);
 }
 
-.word-board strong {
+.featured-word-button {
+  width: fit-content;
+  min-height: 0;
+  padding: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  text-align: left;
   overflow-wrap: anywhere;
   font-size: clamp(2.4rem, 7vw, 5rem);
+  font-weight: 900;
   line-height: 0.95;
+}
+
+.featured-word-button:hover,
+.featured-word-button:focus-visible,
+.word-title-button:hover,
+.word-title-button:focus-visible {
+  color: color-mix(in srgb, var(--accent) 24%, #fff);
+  outline: 2px solid color-mix(in srgb, var(--accent) 65%, #fff);
+  outline-offset: 5px;
+}
+
+.featured-word-button.is-speaking,
+.word-title-button.is-speaking {
+  color: #fff2b8;
 }
 
 .word-board small {
@@ -1029,19 +1051,11 @@ button {
   font-weight: 900;
 }
 
-.pronunciation-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
 .word-pronunciation {
   display: inline-flex;
   width: fit-content;
   max-width: 100%;
-  margin: 0;
+  margin: 0 0 12px;
   padding: 8px 10px;
   border: 1px solid color-mix(in srgb, var(--teal) 28%, var(--line));
   border-radius: 8px;
@@ -1053,18 +1067,14 @@ button {
   overflow-wrap: anywhere;
 }
 
-.audio-action {
-  min-height: 38px;
-  padding: 0 12px;
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
-  background: #fff;
-  color: var(--accent-dark);
-  font-size: 0.88rem;
-  font-weight: 900;
-}
-
-.audio-action:hover {
-  background: color-mix(in srgb, var(--soft) 70%, #fff);
+.word-title-button {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .word-detail-list {
