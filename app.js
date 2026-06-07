@@ -947,6 +947,7 @@ const elements = {
   insertStoryButton: document.querySelector("#insertStoryButton"),
   saveStoryButton: document.querySelector("#saveStoryButton"),
   storyList: document.querySelector("#storyList"),
+  combinedStory: document.querySelector("#combinedStory"),
   sentenceGuide: document.querySelector("#sentenceGuide"),
   sentenceInput: document.querySelector("#sentenceInput"),
   insertTemplateButton: document.querySelector("#insertTemplateButton"),
@@ -1107,6 +1108,8 @@ function renderParts() {
 }
 
 function renderStories() {
+  renderCombinedStory();
+
   if (state.stories.length === 0) {
     elements.storyList.innerHTML = `
       <p class="empty-state">還沒有故事句。從目前這張單字卡開始寫一句。</p>
@@ -1124,6 +1127,67 @@ function renderStories() {
       `
     )
     .join("");
+}
+
+function currentPartStories() {
+  const lesson = activeLesson();
+  return lessons
+    .map((item, index) => ({ ...item, cardIndex: index }))
+    .filter((item) => item.part === lesson.part)
+    .map((item) => {
+      const story = state.stories.find((entry) => entry.cardIndex === item.cardIndex);
+      return {
+        ...item,
+        storyText: story?.text.trim() || ""
+      };
+    });
+}
+
+function integratedStoryText(partStories) {
+  return partStories
+    .map((item) => item.storyText)
+    .filter(Boolean)
+    .join(" ");
+}
+
+function renderCombinedStory() {
+  const lesson = activeLesson();
+  const partStories = currentPartStories();
+  const completed = partStories.filter((item) => item.storyText).length;
+  const total = partStories.length;
+  const missing = total - completed;
+  const storyText = integratedStoryText(partStories);
+
+  if (!storyText) {
+    elements.combinedStory.innerHTML = `
+      <article class="combined-story-card is-pending">
+        <strong>Part ${lesson.part} 整合故事</strong>
+        <p>這個故事還沒有可整合的句子。先儲存一個故事句，這裡會開始累積。</p>
+      </article>
+    `;
+    return;
+  }
+
+  if (missing > 0) {
+    elements.combinedStory.innerHTML = `
+      <article class="combined-story-card is-pending">
+        <strong>Part ${lesson.part} 整合故事：${lesson.theme}</strong>
+        <p>這個故事還差 ${missing} 句就可以整合成完整段落。</p>
+        <blockquote>${storyText}</blockquote>
+      </article>
+    `;
+    return;
+  }
+
+  elements.combinedStory.innerHTML = `
+    <article class="combined-story-card is-complete">
+      <div class="combined-story-heading">
+        <strong>Part ${lesson.part} 整合故事：${lesson.theme}</strong>
+        <button class="ghost-action compact-action" type="button" data-copy-story="part">複製整段故事</button>
+      </div>
+      <p>${storyText}</p>
+    </article>
+  `;
 }
 
 function renderNotes() {
@@ -1298,6 +1362,20 @@ elements.partBoard.addEventListener("click", (event) => {
   state.cardIndex = clampCardIndex(Number(button.dataset.index));
   saveState();
   render();
+});
+
+elements.combinedStory.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-copy-story]");
+  if (!button) return;
+
+  const storyText = integratedStoryText(currentPartStories());
+  if (!storyText) return;
+
+  copyToClipboard(storyText);
+  button.textContent = "已複製";
+  window.setTimeout(() => {
+    button.textContent = "複製整段故事";
+  }, 1200);
 });
 
 elements.resetButton.addEventListener("click", () => {
