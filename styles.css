@@ -15,6 +15,7 @@
   --scene-ground: #b9683b;
   --board-frame: #8d5a31;
   --board-bg: #1f433b;
+  --story-image: url("assets/story-race.jpg");
   --shadow: 0 18px 45px rgba(23, 32, 29, 0.1);
 }
 
@@ -205,21 +206,33 @@ button {
   background: var(--scene-sky);
 }
 
+.study-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(10, 20, 18, 0.54), rgba(10, 20, 18, 0.18) 48%, rgba(10, 20, 18, 0.02)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(10, 20, 18, 0.16));
+  pointer-events: none;
+}
+
 .word-board {
   position: absolute;
   left: 28px;
   right: 28px;
   top: 28px;
-  z-index: 3;
+  z-index: 4;
   display: grid;
   gap: 12px;
   min-height: 172px;
   padding: 26px;
-  border: 8px solid var(--board-frame);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 8px;
-  background: var(--board-bg);
+  background: color-mix(in srgb, var(--board-bg) 84%, transparent);
+  backdrop-filter: blur(10px);
   color: #fff;
-  box-shadow: 0 16px 30px rgba(23, 32, 29, 0.18);
+  box-shadow: 0 18px 40px rgba(23, 32, 29, 0.28);
 }
 
 .word-board span {
@@ -243,17 +256,43 @@ button {
   z-index: 1;
   inset: 0;
   overflow: hidden;
+  background-image: var(--story-image);
+  background-position: center;
+  background-size: cover;
   pointer-events: none;
 }
 
 .theme-scene::after {
   content: "";
   position: absolute;
-  left: -5%;
-  right: -5%;
-  bottom: -2px;
-  height: 42%;
-  background: var(--scene-ground);
+  inset: 0;
+  background:
+    radial-gradient(circle at 76% 42%, transparent 0 34%, rgba(12, 20, 18, 0.14) 68%),
+    linear-gradient(180deg, transparent 45%, rgba(12, 20, 18, 0.18));
+}
+
+.part-card.race-part {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 246, 235, 0.82)), url("assets/story-race.jpg");
+}
+
+.part-card.lion-part {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 245, 220, 0.82)), url("assets/story-lion-mouse.jpg");
+}
+
+.part-card.cinderella-part {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(239, 242, 255, 0.82)), url("assets/story-cinderella.jpg");
+}
+
+.part-card.swan-part {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(232, 249, 250, 0.82)), url("assets/story-swan.jpg");
+}
+
+.part-card.race-part,
+.part-card.lion-part,
+.part-card.cinderella-part,
+.part-card.swan-part {
+  background-position: center;
+  background-size: cover;
 }
 
 .sun,

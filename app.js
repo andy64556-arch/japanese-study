@@ -795,6 +795,7 @@ const partThemes = {
     ground: "#b9683b",
     boardFrame: "#8d5a31",
     boardBg: "#1f433b",
+    image: "assets/story-race.jpg",
     scene: `
       <div class="sun"></div>
       <div class="race-hill hill-one"></div>
@@ -822,6 +823,7 @@ const partThemes = {
     ground: "#c98637",
     boardFrame: "#7b4e1d",
     boardBg: "#283a2c",
+    image: "assets/story-lion-mouse.jpg",
     scene: `
       <div class="savanna-sun"></div>
       <div class="acacia"><i></i><i></i><i></i></div>
@@ -843,6 +845,7 @@ const partThemes = {
     ground: "#b9a1c0",
     boardFrame: "#5c4f86",
     boardBg: "#26324f",
+    image: "assets/story-cinderella.jpg",
     scene: `
       <div class="moon"></div>
       <div class="sparkle one"></div><div class="sparkle two"></div><div class="sparkle three"></div>
@@ -862,6 +865,7 @@ const partThemes = {
     ground: "#76aeb8",
     boardFrame: "#446c75",
     boardBg: "#213c45",
+    image: "assets/story-swan.jpg",
     scene: `
       <div class="reed left"></div><div class="reed right"></div>
       <div class="pond-ripple one"></div><div class="pond-ripple two"></div>
@@ -1019,8 +1023,9 @@ function applyTheme(part) {
   document.documentElement.style.setProperty("--scene-ground", theme.ground);
   document.documentElement.style.setProperty("--board-frame", theme.boardFrame);
   document.documentElement.style.setProperty("--board-bg", theme.boardBg);
-  elements.themeScene.className = `theme-scene ${theme.key}-scene`;
-  elements.themeScene.innerHTML = theme.scene;
+  document.documentElement.style.setProperty("--story-image", `url("${theme.image}")`);
+  elements.themeScene.className = `theme-scene ${theme.key}-scene image-scene`;
+  elements.themeScene.innerHTML = "";
 }
 
 function renderQuiz(lesson) {
