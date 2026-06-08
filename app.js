@@ -1036,9 +1036,11 @@ function render() {
     .join("");
   elements.exampleStack.innerHTML = lesson.examples
     .map(
-      ([sentence, zh]) => `
+      ([sentence, zh], index) => `
         <article class="example-card">
-          <p>${sentence}</p>
+          <button class="example-sentence-button" type="button" data-example-index="${index}">
+            ${sentence}
+          </button>
           <span>${zh}</span>
         </article>
       `
@@ -1275,16 +1277,14 @@ function copyToClipboard(text) {
   area.remove();
 }
 
-function speakWord(event) {
-  const lesson = activeLesson();
+function speakEnglish(text, target, fallbackElement = elements.wordPronunciation) {
   if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
-    elements.wordPronunciation.textContent = `Pronunciation ${pronunciations[lesson.word] || ""} · 此瀏覽器不支援播放`;
+    fallbackElement.textContent = `${fallbackElement.textContent} · 此瀏覽器不支援播放`;
     return;
   }
 
-  const target = event?.currentTarget;
   window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(lesson.word);
+  const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "en-US";
   utterance.rate = 0.82;
   utterance.pitch = 1;
@@ -1300,6 +1300,21 @@ function speakWord(event) {
   window.speechSynthesis.speak(utterance);
 }
 
+function speakWord(event) {
+  speakEnglish(activeLesson().word, event?.currentTarget);
+}
+
+function speakExample(event) {
+  const button = event.target.closest("[data-example-index]");
+  if (!button) return;
+
+  const index = Number(button.dataset.exampleIndex);
+  const sentence = activeLesson().examples[index]?.[0];
+  if (!sentence) return;
+
+  speakEnglish(sentence, button);
+}
+
 elements.saveCardButton.addEventListener("click", saveCard);
 
 elements.copyWordButton.addEventListener("click", () => {
@@ -1311,6 +1326,7 @@ elements.copyExampleButton.addEventListener("click", () => {
   copyToClipboard(activeLesson().examples.map(([sentence]) => sentence).join("\n"));
 });
 
+elements.exampleStack.addEventListener("click", speakExample);
 elements.featuredWord.addEventListener("click", speakWord);
 elements.wordTitle.addEventListener("click", speakWord);
 
